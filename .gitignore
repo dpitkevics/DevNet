@@ -49,4 +49,5 @@ coverage.xml
 *.pot
 
 # Sphinx documentation
+/db.sqlite3
 docs/_build/
