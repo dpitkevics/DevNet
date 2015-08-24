@@ -1,0 +1,1 @@
+{% extends request.user.is_authenticated|yesno:"layout_auth_with_sidebar.html,layout_guest.html" %}

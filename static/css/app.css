@@ -1,0 +1,30 @@
+.navbar-top {
+    margin-bottom: 0;
+}
+
+.profile-img {
+    max-height: 40px;
+    margin-top: -10px;
+    margin-bottom: -10px;
+}
+
+.green {
+    color: #92D36E;
+}
+
+.online-circle {
+    font-size: 6px !important;
+}
+
+.news-feed-box i {
+    font-size: 12px;
+}
+
+.news-feed-text {
+    font-size: 12px;
+}
+
+.news-feed-time {
+    font-size: 10px;
+    font-style: italic;
+}
