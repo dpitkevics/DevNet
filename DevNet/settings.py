@@ -39,7 +39,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrapform',
     'account',
+    'taggit',
+    'taggit_templatetags',
     'main',
+    'profiles',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -53,6 +56,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
     'account.middleware.LocaleMiddleware',
     'account.middleware.TimezoneMiddleware',
+    'profiles.middlewares.LoginRequiredMiddleware',
 )
 
 ROOT_URLCONF = 'DevNet.urls'
@@ -123,3 +127,7 @@ EMAIL_HOST_USER = 'fantasykhlinfo@gmail.com'
 EMAIL_HOST_PASSWORD = 'hawks111'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# Taggit Configuration
+
+TAGGIT_CASE_INSENSITIVE = True
