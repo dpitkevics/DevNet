@@ -34,19 +34,21 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    'user_sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrapform',
     'account',
     'taggit',
     'taggit_templatetags',
+    'notifications',
     'main',
     'profiles',
+    'user_notifications',
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'user_sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -131,3 +133,7 @@ EMAIL_USE_TLS = True
 # Taggit Configuration
 
 TAGGIT_CASE_INSENSITIVE = True
+
+# Session Configuration
+
+SESSION_ENGINE = 'user_sessions.backends.db'

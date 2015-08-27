@@ -1,4 +1,7 @@
 {% load staticfiles %}
+{% load notifications_tags %}
+
+{% notifications_unread as unread_notifications %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -83,7 +86,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="#">
-                            <i class="fa fa-comments-o"></i>
+                            <i class="fa fa-bell-o"></i> (<span id="notification-count">{{ unread_notifications }}</span>)
                         </a>
                     </li>
                 </ul>

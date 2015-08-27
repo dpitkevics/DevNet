@@ -1,39 +1,84 @@
 {% extends 'layout.html' %}
 
 {% block body_js %}
-    <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+    <script src="http://localhost:8002/socket.io/socket.io.js"></script>
 
     <script>
-        $(document).ready(function () {
-            var socket = io.connect('localhost', {port: 4000});
+        function getCookie(name) {
+            var cookieValue = null;
 
-            socket.on('connect', function () {
-                console.log("connect");
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+
+            return cookieValue;
+        }
+
+        $(document).ready(function () {
+            $("#mark-as-read-button").on("click", function () {
+                $.ajax({
+                    url: "{% url 'user_notifications_mark_as_read' %}",
+                    type: "POST",
+                    success: function (data) {
+                    },
+                    beforeSend: function (xhr) {
+                        var csrftoken = getCookie("csrftoken");
+                        xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                    }
+                });
+
+                return false;
             });
 
-            var entry_el = $('#comment');
+            $("#send-notification-button").popover({
+                container: "body",
+                html: true,
+                placement: "right",
+                content: function () {
+                    return $("div.send-notification-popover").html();
+                },
+                trigger: "click"
+            });
+
+            $("body").on("click", "#send-notification-form button", function (event) {
+                event.preventDefault();
+
+                var $send_notification_form = $(event.target).parent();
+
+                $.ajax({
+                    url: "{% url 'user_notifications_send_notification' %}",
+                    type: "POST",
+                    data: $send_notification_form.serialize(),
+                    success: function (data) {
+                        $("#send-notification-button").popover("hide");
+                    },
+                    beforeSend: function (xhr) {
+                        var csrftoken = getCookie("csrftoken");
+                        xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                    }
+                });
+
+                return false;
+            });
+
+            var socket = io.connect("localhost:8002");
 
             socket.on('message', function (message) {
-                //Escape HTML characters
-                var data = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                var message_json = jQuery.parseJSON(message);
 
-                //Append message to the bottom of the list
-                $('#comments').append('<li>' + data + '</li>');
-                window.scrollBy(0, 10000000000);
-                entry_el.focus();
-            });
+                $("#unread_count").text(message_json.unread_count);
 
-            entry_el.keypress(function (event) {
-                //When enter is pressed send input value to node server
-                if (event.keyCode != 13) return;
-                var msg = entry_el.attr('value');
-                if (msg) {
-                    socket.emit('send_message', msg, function (data) {
-                        console.log(data);
-                    });
-
-                    //Clear input value
-                    entry_el.attr('value', '');
+                if ("mark_as_read" in message_json) {
+                    $("#notification-count").text(0);
+                } else {
+                    $("#notification-count").text(message_json.count);
                 }
             });
         });
@@ -42,4 +87,30 @@
 
 {% block content %}
     Hello, World
+
+    <div class="row">
+        <div class="col-md-2">
+            <button id="send-notification-button" type="button" class="btn btn-default btn-block">Send Notification
+            </button>
+            <div id="send-notification-popover">
+                <form id="send-notification-form" role="form" action="{% url 'user_notifications_send_notification' %}"
+                      method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="recipient_username">Username</label>
+                        <input type="text" class="form-control" id="recipient_username" name="recipient_username"
+                               placeholder="Recipient username">
+                    </div>
+                    <div class="form-group">
+                        <label for="verb">Verb</label>
+                        <input type="text" class="form-control" id="verb" name="verb" placeholder="Verb">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <a id="mark-as-read-button" class="btn btn-default btn-block" href="#">Mark as read</a>
+        </div>
+    </div>
 {% endblock %}

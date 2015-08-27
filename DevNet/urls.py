@@ -21,7 +21,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^$', include('main.urls')),
     url(r'^profile/', include('profiles.urls')),
+    url(r'^notification/', include('user_notifications.urls')),
 
     url(r"^account/", include("account.urls")),
+    url(r'^notifications/', include('notifications.urls')),
+    url(r'', include('user_sessions.urls', 'user_sessions')),
     url(r'^admin/', include(admin.site.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
