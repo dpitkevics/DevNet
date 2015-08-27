@@ -5,16 +5,6 @@ var cookie_reader = require('cookie');
 var querystring = require('querystring');
 var redis = require('redis');
 
-//Configure socket.io to store cookie set by Django
-//io.set('authorization', function (data, accept) {
-//    if (data.headers.cookie) {
-//        data.cookie = cookie_reader.parse(data.headers.cookie);
-//
-//        return accept(null, true);
-//    }
-//    return accept('error', false);
-//});
-
 io.use(function (socket, next) {
     if (socket.handshake.headers.cookie) {
         socket.handshake.cookie = cookie_reader.parse(socket.handshake.headers.cookie);
