@@ -124,8 +124,9 @@ ACCOUNT_EMAIL_CONFIRMATION_REQUIRED = True
 
 # Email Configuration
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'fantasykhlinfo@gmail.com'
+DEFAULT_FROM_EMAIL = 'info@jooglin.com'
+EMAIL_HOST = 'smtp.1and1.com'
+EMAIL_HOST_USER = 'info@jooglin.com'
 EMAIL_HOST_PASSWORD = 'hawks111'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
