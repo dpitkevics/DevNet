@@ -1,7 +1,9 @@
 {% extends 'layout.html' %}
 
+{% load sitetags %}
+
 {% block body_js %}
-    <script src="http://localhost:8002/socket.io/socket.io.js"></script>
+    <script src="{% get_site_url %}:8002/socket.io/socket.io.js"></script>
 
     <script>
         function getCookie(name) {
