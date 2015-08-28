@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load notifications_tags %}
+{% load sitetags %}
 
 {% notifications_unread as unread_notifications %}
 
@@ -158,6 +159,51 @@
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src="{% get_socket_url %}/socket.io/socket.io.js"></script>
+
+    <script src="{% static 'js/Socket.js' %}"></script>
+    <script src="{% static 'js/Notification.js' %}"></script>
+
+    <script>
+        $(function () {
+            var params = {
+                socketUrl: '{% get_socket_url %}',
+                onMessage: function (message) {
+                    var message_json = jQuery.parseJSON(message);
+
+                    console.log(message_json);
+
+                    if ("mark_as_read" in message_json) {
+                        notification.setNotificationCounter(0);
+                    } else {
+                        notification.setNotificationCounter(message_json.count);
+                    }
+                }
+            };
+
+            var socket = new Socket(params);
+            socket.connect();
+
+            var notification = new Notification({
+                sendNotificationUrl: '{% url 'user_notifications_send_notification' %}',
+                markAsReadUrl: '{% url 'user_notifications_mark_as_read' %}',
+                socket: socket
+            });
+
+            $("body").on("click", "#send-notification-form button", function (event) {
+                event.preventDefault();
+
+                notification.sendNotification('dpitkevics', 'Notification sent.');
+            });
+
+            $("#mark-as-read-button").on("click", function (event) {
+                event.preventDefault();
+
+                notification.markAsRead();
+            });
+        });
+    </script>
     {% block body_js %}{% endblock %}
 </body>
 </html>

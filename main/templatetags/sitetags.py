@@ -7,5 +7,5 @@ register = template.Library()
 
 
 @register.simple_tag
-def get_site_url():
-    return local_settings.SITE_URL
+def get_socket_url():
+    return local_settings.SOCKET_URL
