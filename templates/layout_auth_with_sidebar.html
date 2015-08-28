@@ -172,8 +172,6 @@
                 onMessage: function (message) {
                     var message_json = jQuery.parseJSON(message);
 
-                    console.log(message_json);
-
                     if ("mark_as_read" in message_json) {
                         notification.setNotificationCounter(0);
                     } else {
