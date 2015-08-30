@@ -6,3 +6,4 @@ django-taggit-templatetags
 django-notifications-hq
 django-user-sessions
 redis
+djangorestframework

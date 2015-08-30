@@ -2,7 +2,7 @@ import json
 import redis
 
 from notifications import notify
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
@@ -10,7 +10,19 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from notifications.models import Notification
 
+from .serializers import NotificationSerializer
 
+
+@login_required
+def get_notifications(request):
+    notification_serializer_set = []
+
+    for notification in request.user.notifications.order_by('-timestamp').all().exclude(verb="")[:10]:
+        notification_serializer = NotificationSerializer(notification)
+
+        notification_serializer_set.append(notification_serializer.data)
+
+    return JsonResponse(notification_serializer_set, safe=False)
 
 
 @login_required

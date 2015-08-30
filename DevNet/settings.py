@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'taggit',
     'taggit_templatetags',
     'notifications',
+    'rest_framework',
     'main',
     'profiles',
     'user_notifications',
