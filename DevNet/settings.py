@@ -46,6 +46,8 @@ INSTALLED_APPS = (
     'main',
     'profiles',
     'user_notifications',
+    'projects',
+    'ratings',
 )
 
 MIDDLEWARE_CLASSES = (

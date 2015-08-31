@@ -101,10 +101,10 @@
             <div class="sidebar-block">
                 <ul class="sidebar-nav">
                     <li>
-                        <a href="#">Add Project</a>
+                        <a href="{% url 'projects_create' %}">Add Project</a>
                     </li>
                     <li>
-                        <a href="#">Browse Projects</a>
+                        <a href="{% url 'projects_list_all' %}">Browse Projects</a>
                     </li>
                     <li>
                         <a href="#">Invest in Project</a>
@@ -232,18 +232,6 @@
             });
 
             notification.renderNotificationPanel();
-
-            $("body").on("click", "#send-notification-form button", function (event) {
-                event.preventDefault();
-
-                notification.sendNotification('dpitkevics', 'Notification sent.');
-            });
-
-            $("#mark-as-read-button").on("click", function (event) {
-                event.preventDefault();
-
-                notification.markAsRead();
-            });
         });
     </script>
     {% block body_js %}{% endblock %}

@@ -7,3 +7,6 @@ django-notifications-hq
 django-user-sessions
 redis
 djangorestframework
+Pillow
+django-model-utils
+django-ipware

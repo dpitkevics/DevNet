@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% load i18n %}
+{% load bootstrap %}
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap-tagsinput.css' %}">
+{% endblock %}
+
+{% block body_js %}
+    <script src="{% static 'js/bootstrap-tagsinput.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'projects_create' %}">
+        {% csrf_token %}
+
+        {{ form|bootstrap }}
+
+        <button class="btn btn-primary" type="submit">{% trans "Create" %}</button>
+    </form>
+{% endblock %}

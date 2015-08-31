@@ -1,0 +1,7 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    {% for project in projects %}
+        {% include 'projects/_project_box.html' with project=project %}
+    {% endfor %}
+{% endblock %}

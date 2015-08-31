@@ -129,70 +129,6 @@ function Notification (params) {
                                 placeholder: 'Search...'
                             }
                         },
-                        {
-                            tag: 'ul',
-                            className: 'nav nav-tabs nav-justified',
-                            prop: {
-                                role: 'tablist'
-                            },
-                            els: [
-                                {
-                                    tag: 'li',
-                                    className: 'active',
-                                    attr: {
-                                        role: 'presentation'
-                                    },
-                                    els: [
-                                        {
-                                            tag: 'a',
-                                            href: '#notifications-all',
-                                            text: 'All',
-                                            attr: {
-                                                'aria-controls': 'notifications-all',
-                                                'role': 'tab',
-                                                'data-toggle': 'tab'
-                                            }
-                                        }
-                                    ]
-                                },
-                                {
-                                    tag: 'li',
-                                    prop: {
-                                        role: 'presentation'
-                                    },
-                                    els: [
-                                        {
-                                            tag: 'a',
-                                            href: '#notifications-online',
-                                            text: 'Online',
-                                            attr: {
-                                                'aria-controls': 'notifications-online',
-                                                'role': 'tab',
-                                                'data-toggle': 'tab'
-                                            }
-                                        }
-                                    ]
-                                },
-                                {
-                                    tag: 'li',
-                                    prop: {
-                                        role: 'presentation'
-                                    },
-                                    els: [
-                                        {
-                                            tag: 'a',
-                                            href: '#notifications-offline',
-                                            text: 'Offline',
-                                            attr: {
-                                                'aria-controls': 'notifications-offline',
-                                                'role': 'tab',
-                                                'data-toggle': 'tab'
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
                         this.notificationItemNode = mkE({
                             tag: 'div'
                         })
@@ -217,6 +153,8 @@ function Notification (params) {
 
         if (parentNode.css('right').replace('px', '') == 0) {
             pixelsFromRight = -250;
+        } else {
+            this.markAsRead();
         }
 
         parentNode.animate({
