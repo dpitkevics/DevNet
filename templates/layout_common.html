@@ -1,0 +1,138 @@
+{% load staticfiles %}
+{% load notifications_tags %}
+{% load sitetags %}
+
+{% notifications_unread as unread_notifications %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}DevNet{% endblock %}</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'semantic/dist/semantic.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/sidebar-navigation.css' %}">
+    <link rel="stylesheet" href="{% static 'css/notification.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    {% block css %}{% endblock %}
+    {% block head_js %}{% endblock %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+</head>
+<body>
+    {% block top_menu %}
+        <div class="ui top attached navigation menu">
+            {% block top_menu_items %}{% endblock %}
+        </div>
+    {% endblock %}
+    
+    <div class="ui bottom attached segment pushable">
+        {% block left_menu %}
+            <div class="ui visible sidebar thin vertical menu">
+                {% block left_menu_items %}{% endblock %}
+            </div>
+        {% endblock %}
+        <div class="pusher">
+            <div class="ui container">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="{% static 'js/mkE.js' %}"></script>
+    
+    <script src="{% static 'semantic/dist/semantic.min.js' %}"></script>
+    
+
+    <script src="{% get_socket_url %}/socket.io/socket.io.js"></script>
+
+    <script src="{% static 'js/Ajax.js' %}"></script>
+    <script src="{% static 'js/Socket.js' %}"></script>
+    <script src="{% static 'js/Notification.js' %}"></script>
+
+    <script>
+        $(function () {
+            moment.fn.minutesFromNow = function () {
+                var r = Math.floor((+new Date() - (+this)) / 60000);
+                return r + ' min' + ((r === 1) ? '' : 's') + ' ago';
+            };
+
+            moment.fn.timeSince = function () {
+
+                var seconds = Math.floor((new Date() - this) / 1000);
+
+                var interval = Math.floor(seconds / 31536000);
+
+                if (interval > 1) {
+                    return interval + " years";
+                }
+                interval = Math.floor(seconds / 2592000);
+                if (interval > 1) {
+                    return interval + " months";
+                }
+                interval = Math.floor(seconds / 86400);
+                if (interval > 1) {
+                    return interval + " days";
+                }
+                interval = Math.floor(seconds / 3600);
+                if (interval > 1) {
+                    return interval + " hours";
+                }
+                interval = Math.floor(seconds / 60);
+                if (interval > 1) {
+                    return interval + " minutes";
+                }
+                return Math.floor(seconds) + " seconds";
+            };
+            
+            $('.ui.dropdown')
+                .dropdown({
+                  'on': 'hover'
+                })
+            ;
+            
+            $('.ui.sidebar')
+                .sidebar({
+                    context: $('.bottom.segment'),
+                    dimPage: false,
+                    closable: false
+                })
+                .sidebar('attach events', '.menu .sidebar-toggle')
+            ;
+
+            var params = {
+                socketUrl: '{% get_socket_url %}',
+                onMessage: function (message) {
+                    var message_json = jQuery.parseJSON(message);
+
+                    if ("mark_as_read" in message_json) {
+                        notification.setNotificationCounter(0);
+                    } else {
+                        notification.setNotificationCounter(message_json.count);
+                    }
+
+                    notification.loadNotificationItems();
+                }
+            };
+
+            var socket = new Socket(params);
+            socket.connect();
+
+            var notification = new Notification({
+                sendNotificationUrl: '{% url 'user_notifications_send_notification' %}',
+                markAsReadUrl: '{% url 'user_notifications_mark_as_read' %}',
+                getNotificationUrl: '{% url 'user_notifications_get_notifications' %}',
+                socket: socket
+            });
+
+            notification.renderNotificationPanel();
+        });
+    </script>
+    {% block body_js %}{% endblock %}
+</body>
+</html>

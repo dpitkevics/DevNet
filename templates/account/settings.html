@@ -1,19 +1,17 @@
 {% extends "layout.html" %}
 
 {% load i18n %}
-{% load bootstrap %}
 
 {% block title %}{% trans "Account" %}{% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-5">
-            <form method="POST" action="{% url "account_settings" %}">
-                <legend>{% trans "Account" %}</legend>
-                {% csrf_token %}
-                {{ form|bootstrap }}
-                <button class="btn btn-primary" type="submit">{% trans "Save" %}</button>
-            </form>
-        </div>
-    </div>
+    <form class="ui form" method="POST" action="{% url "account_settings" %}">
+        {% csrf_token %}
+        
+        <h4 class="ui dividing header">Account Settings</h4>
+        
+        {{ form }}
+        
+        <button class="ui green basic button" type="submit">{% trans "Save" %}</button>
+    </form>
 {% endblock %}

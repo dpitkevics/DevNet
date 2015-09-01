@@ -2,22 +2,25 @@
 
 {% load account_tags %}
 {% load i18n %}
-{% load bootstrap %}
 
 {% block title %}{% trans "Log in" %}{% endblock %}
 
 {% block content %}
     <div class="row">
         <div class="col-md-4">
-            <form method="POST" action="{% url "account_login" %}" autocapitalize="off" {% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
-                <legend>{% trans "Log in to an existing account" %}</legend>
+            <form class="ui form" method="POST" action="{% url "account_login" %}" autocapitalize="off" {% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
                 {% csrf_token %}
-                {{ form|bootstrap }}
+                
+                <h4 class="ui dividing header">Sign In</h4>
+                
+                {{ form }}
+                
                 {% if redirect_field_value %}
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
-                <button type="submit" class="btn btn-primary">{% trans "Log in" %}</button>
-                <a href="{% url "account_password_reset" %}" class="btn btn-link">{% trans "Forgot your password?" %}</a>
+                
+                <button type="submit" class="ui green basic button">{% trans "Log in" %}</button>
+                <a href="{% url "account_password_reset" %}">{% trans "Forgot your password?" %}</a>
             </form>
             {% if ACCOUNT_OPEN_SIGNUP %}
                 <p class="login-signup">

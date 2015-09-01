@@ -3,9 +3,9 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ObjectDoesNotExist
 
-from taggit.managers import TaggableManager
-
 from django.contrib.auth.models import User
+
+from skills.models import Skill
 
 
 def get_avatar(self):
@@ -27,5 +27,4 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="profile", verbose_name=_("user"))
 
     avatar = models.URLField(blank=True)
-    skill_set = TaggableManager(verbose_name=_('Skill set'), help_text=None, blank=True)
-
+    skill_set = models.ManyToManyField(Skill)

@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'user_notifications',
     'projects',
     'ratings',
+    'skills',
 )
 
 MIDDLEWARE_CLASSES = (

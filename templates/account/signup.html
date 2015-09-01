@@ -9,13 +9,17 @@
     <div class="row">
         <div class="col-md-4">
             <form class="ui form" id="signup_form" method="post" action="{% url "account_signup" %}" autocapitalize="off" {% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
-                <legend>{% trans "Sign up" %}</legend>
                 {% csrf_token %}
+                
+                <h4 class="ui dividing header">Sign Up</h4>
+            
                 {{ form }}
+                
                 {% if redirect_field_value %}
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
-                <button type="submit" class="btn btn-primary">{% trans "Sign up" %}</button>
+                
+                <button type="submit" class="ui green basic button">{% trans "Sign up" %}</button>
             </form>
             <p class="login-signup">
                 <small>
