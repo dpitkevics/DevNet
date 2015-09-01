@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% load i18n %}
+{% load semanticui %}
 
 {% block title %}{% trans "Account" %}{% endblock %}
 
@@ -10,7 +11,7 @@
         
         <h4 class="ui dividing header">Account Settings</h4>
         
-        {{ form }}
+        {{ form|semanticui }}
         
         <button class="ui green basic button" type="submit">{% trans "Save" %}</button>
     </form>

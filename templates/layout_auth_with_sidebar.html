@@ -23,85 +23,80 @@
 </head>
 <body>
     <div class="ui top attached navigation menu">
-        <a class="sidebar-toggle item">
-            <i class="sidebar icon"></i>
-        </a>
-        
-        <div class="item">
-            <a href="{% url 'homepage' %}">
-                DevNet
-            </a>
-        </div>
-        
-        <a class="icon item">
-            <i class="mail icon"></i>
-        </a>
-        
-        <div class="ui dropdown item">
-            <img class="ui avatar image" src="{{ request.user.get_avatar }}">
-            <span>{{ request.user.username }}</span>
-            <i class="dropdown icon"></i>
-            
-            <div class="menu">
-                <a class="item" href="{% url 'account_settings' %}">
-                    Settings
-                </a>
-                
-                <a class="item" href="{% url 'profiles_update' %}">
-                    Profile
-                </a>
-                
-                <a class="item" href="#">
-                    Notifications
-                </a>
-                
-                <a class="item" href="{% url 'account_logout' %}">
-                    Logout
+        <div class="menu">
+            <div class="item">
+                <a href="{% url 'homepage' %}">
+                    DevNet
                 </a>
             </div>
-        </div>
-        
-        <div class="ui category search item">
-            <div class="ui transparent icon input">
-                <input class="prompt" type="text" placeholder="Search...">
-                <i class="search link icon"></i>
-            </div>
-            
-            <div class="results"></div>
-        </div>
-        
-        <a class="right item" href="#" id="notification-button">
-            <i class="alarm icon"></i> (<span id="notification-count">{{ unread_notifications }}</span>)
-        </a>
-    </div>
-    
-    <div class="ui bottom attached segment pushable">
-        <div class="ui visible sidebar thin vertical menu">
+
             <a class="active teal item" href="{% url 'projects_create' %}">
                 Add Project
             </a>
-            
+
             <a class="item" href="{% url 'projects_list_all' %}">
                 Browse Projects
             </a>
-            
+
             <a class="item" href="#">
                 Invest in Project
             </a>
-            
+
             <a class="item" href="#">
                 News
             </a>
-            
+
             <a class="item" href="#">
                 Discussions
             </a>
         </div>
-        <div class="pusher">
-            <div class="ui container">
-                {% block content %}{% endblock %}
+
+        <div class="right menu">
+            <div class="ui category search item">
+                <div class="ui transparent icon input">
+                    <input class="prompt" type="text" placeholder="Search...">
+                    <i class="search link icon"></i>
+                </div>
+
+                <div class="results"></div>
             </div>
+
+            <a class="icon item">
+                <i class="mail icon"></i>
+            </a>
+
+            <div class="ui dropdown item">
+                <img class="ui avatar image" src="{{ request.user.get_avatar }}">
+                <span>{{ request.user.username }}</span>
+                <i class="dropdown icon"></i>
+
+                <div class="menu">
+                    <a class="item" href="{% url 'account_settings' %}">
+                        Settings
+                    </a>
+
+                    <a class="item" href="{% url 'profiles_update' %}">
+                        Profile
+                    </a>
+
+                    <a class="item" href="#">
+                        Notifications
+                    </a>
+
+                    <a class="item" href="{% url 'account_logout' %}">
+                        Logout
+                    </a>
+                </div>
+            </div>
+
+            <a class="item" href="#" id="notification-button">
+                <i class="alarm icon"></i> (<span id="notification-count">{{ unread_notifications }}</span>)
+            </a>
         </div>
+    </div>
+
+    <div class="ui container">
+        {% block content %}{% endblock %}
     </div>
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>

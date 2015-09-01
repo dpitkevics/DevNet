@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "cookie": "*",
+    "gulp": "^3.9.0",
+    "gulp-help": "*",
+    "http": "*",
+    "querystring": "*",
+    "redis": "*",
+    "semantic-ui": "^2.0.8",
+    "socket.io": "*"
+  }
+}

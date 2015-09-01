@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load staticfiles %}
+{% load semanticui %}
 
 {% block title %}{% trans "Account" %}{% endblock %}
 
@@ -19,7 +20,7 @@
         
         <h4 class="ui dividing header">Profile Settings</h4>
         
-        {{ form }}
+        {{ form|semanticui }}
         
         <button class="ui green basic button" type="submit">{% trans "Save" %}</button>
     </form>

@@ -4,8 +4,6 @@ from django.http.response import HttpResponseRedirect
 
 from .forms import ProfileForm
 
-from skills.models import Skill
-
 
 def update(request):
     try:

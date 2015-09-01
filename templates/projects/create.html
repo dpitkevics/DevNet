@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load staticfiles %}
+{% load semanticui %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/bootstrap-tagsinput.css' %}">
@@ -15,7 +16,9 @@
     <form class="ui form" method="post" action="{% url 'projects_create' %}">
         {% csrf_token %}
 
-        {{ form }}
+        <h4 class="ui dividing header">Create new Project</h4>
+
+        {{ form|semanticui }}
 
         <button class="ui green basic button" type="submit">{% trans "Create" %}</button>
     </form>
