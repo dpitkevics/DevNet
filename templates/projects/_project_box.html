@@ -1,44 +1,29 @@
 {% load ratingtags %}
 
-<div class="col-md-4">
-    <div class="row">
-        <div class="col-md-4">
-            <img src="{{ project.author.get_avatar }}" />
+<div class="ui card">
+    <div class="content">
+        <div class="right floated meta">
+            {{ project.created|date:"d. F, Y" }}
         </div>
-
-        <div class="col-md-6">
-            <div class="row">
-                <div class="col-md-12">
-                    <strong>{{ project.author.get_full_name|default:project.author.username }}</strong>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    {{ project.created|date:"d. F, Y" }}
-                </div>
-            </div>
-        </div>
+        <img class="ui avatar image" src="{{ project.author.get_avatar }}" />
+        {{ project.author.get_full_name|default:project.author.username }}
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <img src="{{ project.image|default:project.default_image }}" style="max-width: 100%" />
-        </div>
+    <div class="image">
+        <img src="{{ project.image|default:project.default_image }}" />
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <h2>{{ project }}</h2>
-        </div>
+    <div class="content">
+        <a class="header">{{ project }}</a>
     </div>
 
-    <hr />
-
-    <div class="row">
-        <div class="col-md-12">
+    <div class="extra content">
+        <span class="right floated">
             {% get_rating project as rating %}
-            {{ rating }} ({{ rating.total_votes }})
-        </div>
+            <div class="ui rating" data-rating="{{ rating.total_score }}" data-max-rating="5"></div>
+        </span>
+
+        <i class="users icon"></i>
+        3 contributors
     </div>
 </div>
