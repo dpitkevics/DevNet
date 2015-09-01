@@ -10,3 +10,4 @@ djangorestframework
 Pillow
 django-model-utils
 django-ipware
+django-gulp

@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'taggit_templatetags',
     'notifications',
     'rest_framework',
+    'django_gulp',
     'main',
     'profiles',
     'user_notifications',

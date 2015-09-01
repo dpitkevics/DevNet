@@ -15,7 +15,6 @@
 }
 
 .sidebar-wrapper {
-    z-index: 990;
     position: absolute;
     left: 0;
     height: 100%;

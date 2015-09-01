@@ -11,8 +11,7 @@
     <title>{% block title %}DevNet{% endblock %}</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'semantic/dist/semantic.min.css' %}">
 
     <link rel="stylesheet" href="{% static 'css/sidebar-navigation.css' %}">
     <link rel="stylesheet" href="{% static 'css/notification.css' %}">
@@ -23,138 +22,83 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-default navbar-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target="#top-navbar" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{% url 'homepage' %}">DevNet</a>
-            </div>
-
-            <div class="collapse navbar-collapse" id="top-navbar">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-envelope-o"></i>
-                        </a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">
-                            <img src="{{ request.user.get_avatar }}" class="img-circle profile-img"/>
-                            Daniels
-                            <span class="caret"></span>
-                        </a>
-
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="{% url 'account_settings' %}">
-                                    Settings
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'profiles_update' %}">
-                                    Profile
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Notifications
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'account_logout' %}">
-                                    Logout
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <form class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-default">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </form>
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="#" id="notification-button">
-                            <i class="fa fa-bell-o"></i> (<span id="notification-count">{{ unread_notifications }}</span>)
-                        </a>
-                    </li>
-                </ul>
+    <div class="ui top attached navigation menu">
+        <a class="sidebar-toggle item">
+            <i class="sidebar icon"></i>
+        </a>
+        
+        <div class="item">
+            <a href="{% url 'homepage' %}">
+                DevNet
+            </a>
+        </div>
+        
+        <a class="icon item">
+            <i class="mail icon"></i>
+        </a>
+        
+        <div class="ui dropdown item">
+            <img class="ui avatar image" src="{{ request.user.get_avatar }}">
+            <span>{{ request.user.username }}</span>
+            <i class="dropdown icon"></i>
+            
+            <div class="menu">
+                <a class="item" href="{% url 'account_settings' %}">
+                    Settings
+                </a>
+                
+                <a class="item" href="{% url 'profiles_update' %}">
+                    Profile
+                </a>
+                
+                <a class="item" href="#">
+                    Notifications
+                </a>
+                
+                <a class="item" href="{% url 'account_logout' %}">
+                    Logout
+                </a>
             </div>
         </div>
-    </nav>
-
-    <div id="wrapper">
-        <div class="sidebar-wrapper">
-            <div class="sidebar-block">
-                <ul class="sidebar-nav">
-                    <li>
-                        <a href="{% url 'projects_create' %}">Add Project</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'projects_list_all' %}">Browse Projects</a>
-                    </li>
-                    <li>
-                        <a href="#">Invest in Project</a>
-                    </li>
-                    <li>
-                        <a href="#">News</a>
-                    </li>
-                    <li>
-                        <a href="#">Discussions</a>
-                    </li>
-                </ul>
-
-                <hr />
-
-                <div class="col-md-12">
-                    <h4>News Feed</h4>
-
-                    <div class="row">
-                        <div class="news-feed-box">
-                            <div class="col-md-1">
-                                <i class="fa fa-bell"></i>
-                            </div>
-
-                            <div class="col-md-9">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <span class="news-feed-text">Daniels just logged in</span>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <span class="news-feed-time">5 minutes ago</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-1">
-                                <i class="fa fa-circle online-circle green"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        
+        <div class="ui category search item">
+            <div class="ui transparent icon input">
+                <input class="prompt" type="text" placeholder="Search...">
+                <i class="search link icon"></i>
             </div>
+            
+            <div class="results"></div>
         </div>
-
-        <div id="notification-sidebar" class="sidebar-wrapper sidebar-wrapper-right"></div>
-
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
+        
+        <a class="right item" href="#" id="notification-button">
+            <i class="alarm icon"></i> (<span id="notification-count">{{ unread_notifications }}</span>)
+        </a>
+    </div>
+    
+    <div class="ui bottom attached segment pushable">
+        <div class="ui visible sidebar thin vertical menu">
+            <a class="active teal item" href="{% url 'projects_create' %}">
+                Add Project
+            </a>
+            
+            <a class="item" href="{% url 'projects_list_all' %}">
+                Browse Projects
+            </a>
+            
+            <a class="item" href="#">
+                Invest in Project
+            </a>
+            
+            <a class="item" href="#">
+                News
+            </a>
+            
+            <a class="item" href="#">
+                Discussions
+            </a>
+        </div>
+        <div class="pusher">
+            <div class="ui container">
                 {% block content %}{% endblock %}
             </div>
         </div>
@@ -162,6 +106,7 @@
 
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="{% static 'semantic/dist/semantic.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
     <script src="{% static 'js/mkE.js' %}"></script>
 
@@ -205,6 +150,21 @@
                 }
                 return Math.floor(seconds) + " seconds";
             };
+            
+            $('.ui.dropdown')
+                .dropdown({
+                  'on': 'hover'
+                })
+            ;
+            
+            $('.ui.sidebar')
+                .sidebar({
+                    context: $('.bottom.segment'),
+                    dimPage: false,
+                    closable: false
+                })
+                .sidebar('attach events', '.menu .sidebar-toggle')
+            ;
 
             var params = {
                 socketUrl: '{% get_socket_url %}',

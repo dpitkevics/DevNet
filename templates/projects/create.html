@@ -1,7 +1,6 @@
 {% extends 'layout.html' %}
 
 {% load i18n %}
-{% load bootstrap %}
 {% load staticfiles %}
 
 {% block css %}
@@ -13,11 +12,11 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post" action="{% url 'projects_create' %}">
+    <form class="ui form" method="post" action="{% url 'projects_create' %}">
         {% csrf_token %}
 
-        {{ form|bootstrap }}
+        {{ form }}
 
-        <button class="btn btn-primary" type="submit">{% trans "Create" %}</button>
+        <button class="ui green basic button" type="submit">{% trans "Create" %}</button>
     </form>
 {% endblock %}
