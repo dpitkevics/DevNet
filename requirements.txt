@@ -11,4 +11,3 @@ Pillow
 django-model-utils
 django-ipware
 django-gulp
-semanticui_forms
