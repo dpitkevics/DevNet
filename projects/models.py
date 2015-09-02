@@ -25,6 +25,6 @@ class Project(TimeStampedModel):
         return "http://image-link-archive.meteor.com/images/placeholder-640x480.png"
 
 
-class ProjectParticipants(TimeStampedModel):
+class ProjectParticipant(TimeStampedModel):
     project = models.ForeignKey(Project)
     user = models.ForeignKey(User)

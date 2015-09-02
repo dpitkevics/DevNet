@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'notifications',
     'rest_framework',
     'django_gulp',
+    'django_activeurl',
     'main',
     'profiles',
     'user_notifications',

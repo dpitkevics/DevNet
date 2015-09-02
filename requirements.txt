@@ -11,3 +11,4 @@ Pillow
 django-model-utils
 django-ipware
 django-gulp
+django-activeurl
