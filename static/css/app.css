@@ -36,3 +36,10 @@ html, body {
     font-size: 10px;
     font-style: italic;
 }
+
+.active-menu-item {
+    background: rgba(255,255,255,.15) !important;
+    color: #fff!important;
+    background-color: #f2711c !important;
+    border-color: #f2711c !important;
+}
