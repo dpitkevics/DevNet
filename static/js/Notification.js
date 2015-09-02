@@ -3,8 +3,6 @@ function Notification (params) {
 
     this.ajax = new Ajax();
 
-    this.notificationButton = $("#notification-button");
-
     this.loadNotificationItems = function () {
         this.ajax.makeCall({
             url: this.params.getNotificationUrl,
@@ -31,75 +29,85 @@ function Notification (params) {
             return false;
         }
 
+    //    <div class="ui link card">
+    //    <div class="content">
+    //        <div class="header">New contributor</div>
+    //        <div class="description">
+    //            <p>
+    //                I am now contributing to "DevNet social network"
+    //            </p>
+    //        </div>
+    //    </div>
+    //
+    //    <div class="extra content">
+    //        <i class="clock icon"></i>
+    //        10 minutes ago
+    //    </div>
+    //
+    //    <div class="extra content">
+    //        <div class="author">
+    //            <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/small/matt.jpg"> Matt
+    //        </div>
+    //    </div>
+    //</div>
+
         var itemNode = mkE({
             tag: 'div',
-            className: 'row',
+            className: 'ui link card',
             els: [
                 {
                     tag: 'div',
-                    className: 'col-md-12',
+                    className: 'content',
                     els: [
                         {
                             tag: 'div',
-                            className: 'col-md-3',
-                            els: [
-                                {
-                                    tag: 'i',
-                                    className: 'fa fa-flag notification-icon' + (obj.unread ? ' color-green' : '')
-                                }
-                            ]
+                            className: 'header',
+                            text: 'New contributor'
                         },
                         {
                             tag: 'div',
-                            className: 'col-md-8',
+                            className: 'description',
                             els: [
                                 {
-                                    tag: 'div',
-                                    className: 'row',
-                                    els: [
-                                        {
-                                            tag: 'div',
-                                            className: 'col-md-12',
-                                            els: [
-                                                {
-                                                    tag: 'h4',
-                                                    text: obj.level
-                                                }
-                                            ]
-                                        }
-                                    ]
+                                    tag: 'p',
+                                    text: obj.verb
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    tag: 'div',
+                    className: 'extra content',
+                    els: [
+                        {
+                            tag: 'i',
+                            className: 'clock icon'
+                        },
+                        {
+                            tag: 'span',
+                            text: moment(obj.timestamp).timeSince() + " ago"
+                        }
+                    ]
+                },
+                {
+                    tag: 'div',
+                    className: 'extra content',
+                    els: [
+                        {
+                            tag: 'div',
+                            className: 'author',
+                            els: [
+                                {
+                                    tag: 'img',
+                                    className: 'ui avatar image',
+                                    attr: {
+                                        'src': 'http://semantic-ui.com/images/avatar/small/matt.jpg'
+                                    }
                                 },
                                 {
-                                    tag: 'div',
-                                    className: 'row',
-                                    els: [
-                                        {
-                                            tag: 'div',
-                                            className: 'col-md-12',
-                                            els: [
-                                                {
-                                                    tag: 'p',
-                                                    text: obj.verb
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    tag: 'div',
-                                    className: 'row',
-                                    els: [
-                                        {
-                                            tag: 'div',
-                                            className: 'col-md-12',
-                                            els: [
-                                                {
-                                                    tag: 'small',
-                                                    text: moment(obj.timestamp).timeSince() + " ago"
-                                                }
-                                            ]
-                                        }
-                                    ]
+                                    tag: 'span',
+                                    text: 'Matt'
                                 }
                             ]
                         }
@@ -120,25 +128,33 @@ function Notification (params) {
             els: [
                 {
                     tag: 'div',
-                    className: 'col-md-12',
+                    className: 'ui search',
                     els: [
                         {
-                            tag: 'input',
-                            className: 'form-control',
-                            prop: {
-                                placeholder: 'Search...'
-                            }
-                        },
-                        this.notificationItemNode = mkE({
-                            tag: 'div'
-                        })
+                            tag: 'div',
+                            className: 'ui icon input',
+                            els: [
+                                this.searchInputNode = mkE({
+                                    tag: 'input',
+                                    className: 'prompt',
+                                    attr: {
+                                        type: 'text',
+                                        placeholder: 'Search...'
+                                    }
+                                })
+                            ]
+                        }
                     ]
-                }
+                },
+                {
+                    tag: 'div',
+                    className: 'ui divider'
+                },
+                this.notificationItemNode = mkE({
+                    tag: 'div'
+                })
             ]
         });
-
-        this.notificationButton.on('click', $.proxy(this.toggleNotificationPanel, this));
-
 
         $('#notification-sidebar').html(this.node);
     };

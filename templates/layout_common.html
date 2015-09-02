@@ -40,7 +40,7 @@
 
     <div class="ui bottom attached segment pushable">
         {% block notification_panel %}
-            <div class="ui inverted labeled icon right inline vertical sidebar menu">
+            <div id="notification-sidebar" class="ui inverted labeled icon right inline vertical sidebar menu">
                 {% block notification_panel_items %}{% endblock %}
             </div>
         {% endblock %}
@@ -142,7 +142,7 @@
                 socket: socket
             });
 
-{#            notification.renderNotificationPanel();#}
+            notification.renderNotificationPanel();
         });
     </script>
     {% block body_js %}{% endblock %}

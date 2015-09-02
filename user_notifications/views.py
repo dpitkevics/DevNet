@@ -17,7 +17,7 @@ from .serializers import NotificationSerializer
 def get_notifications(request):
     notification_serializer_set = []
 
-    for notification in request.user.notifications.order_by('-timestamp').all().exclude(verb="")[:10]:
+    for notification in request.user.notifications.order_by('-timestamp').all().exclude(verb="")[:5]:
         notification_serializer = NotificationSerializer(notification)
 
         notification_serializer_set.append(notification_serializer.data)
