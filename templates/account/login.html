@@ -2,38 +2,34 @@
 
 {% load account_tags %}
 {% load i18n %}
+{% load semanticui %}
 
 {% block title %}{% trans "Log in" %}{% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-4">
-            <form class="ui form" method="POST" action="{% url "account_login" %}" autocapitalize="off" {% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
-                {% csrf_token %}
-                
-                <h4 class="ui dividing header">Sign In</h4>
-                
-                {{ form }}
-                
-                {% if redirect_field_value %}
-                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                {% endif %}
-                
-                <button type="submit" class="ui green basic button">{% trans "Log in" %}</button>
-                <a href="{% url "account_password_reset" %}">{% trans "Forgot your password?" %}</a>
-            </form>
-            {% if ACCOUNT_OPEN_SIGNUP %}
-                <p class="login-signup">
-                    <small>
-                        {% trans "Don't have an account?" %}  <strong><a href="{% urlnext 'account_signup' %}">{% trans "Sign up" %}</a></strong>
-                    </small>
-                </p>
-            {% endif %}
-        </div>
-        <div class="col-md-4">
-            {% include "account/_login_sidebar.html" %}
-        </div>
-    </div>
+    <form class="ui {% if not form.is_valid %}warning{% endif %} form" method="POST" action="{% url "account_login" %}" autocapitalize="off" {% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
+        {% csrf_token %}
+        
+        <h4 class="ui dividing header">Sign In</h4>
+        
+        {{ form|semanticui }}
+        
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        
+        <button type="submit" class="ui green basic button">{% trans "Log in" %}</button>
+        <a href="{% url "account_password_reset" %}">{% trans "Forgot your password?" %}</a>
+    </form>
+    {% if ACCOUNT_OPEN_SIGNUP %}
+        <div class="ui divider"></div>
+    
+        <h4 class="ui dividing header">Don't have an account?</h4>
+        
+        <a class="ui teal basic button" href="{% urlnext 'account_signup' %}">{% trans "Sign up" %}</a>
+    {% endif %}
+    
+    <div class="ui divider hidden"></div>
 {% endblock %}
 
 {% block body_js %}

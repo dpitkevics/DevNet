@@ -4,7 +4,7 @@
 
 {% block left_menu %}{% endblock %}
 
-{% block top_menu_items %}
+{% block top_menu_left_items %}
     <div class="item">
         <a href="{% url 'homepage' %}">
             DevNet
@@ -18,8 +18,12 @@
     <a class="icon item" href="{% url 'account_signup' %}">
         Sign Up
     </a>
+{% endblock %}
 
+{% block top_menu_right_items %}
     <a class="right item" href="{% url 'account_login' %}">
         Sign In
     </a>
 {% endblock %}
+
+{% block notification_panel %}{% endblock %}

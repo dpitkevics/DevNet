@@ -23,15 +23,25 @@
 </head>
 <body>
     {% block top_menu %}
-        <div class="ui top attached navigation menu">
-            {% block top_menu_items %}{% endblock %}
+        <div class="ui top attached navigation inverted menu">
+            {% block top_menu_left %}
+                <div class="menu">
+                    {% block top_menu_left_items %}{% endblock %}
+                </div>
+            {% endblock %}
+    
+            {% block top_menu_right %}
+                <div class="right menu">
+                    {% block top_menu_right_items %}{% endblock %}
+                </div>
+            {% endblock %}
         </div>
     {% endblock %}
-    
+
     <div class="ui bottom attached segment pushable">
-        {% block left_menu %}
-            <div class="ui visible sidebar thin vertical menu">
-                {% block left_menu_items %}{% endblock %}
+        {% block notification_panel %}
+            <div class="ui inverted labeled icon right inline vertical sidebar menu">
+                {% block notification_panel_items %}{% endblock %}
             </div>
         {% endblock %}
         <div class="pusher">
@@ -89,20 +99,22 @@
                 }
                 return Math.floor(seconds) + " seconds";
             };
-            
+
             $('.ui.dropdown')
-                .dropdown({
-                  'on': 'hover'
-                })
+                    .dropdown({
+                        'on': 'hover'
+                    })
             ;
-            
+
             $('.ui.sidebar')
-                .sidebar({
-                    context: $('.bottom.segment'),
-                    dimPage: false,
-                    closable: false
-                })
-                .sidebar('attach events', '.menu .sidebar-toggle')
+                    .sidebar({
+                        context: $('.bottom.segment')
+                    })
+                    .sidebar('attach events', '#notification-button')
+            ;
+
+            $('.ui.rating')
+                    .rating()
             ;
 
             var params = {
@@ -130,7 +142,7 @@
                 socket: socket
             });
 
-            notification.renderNotificationPanel();
+{#            notification.renderNotificationPanel();#}
         });
     </script>
     {% block body_js %}{% endblock %}

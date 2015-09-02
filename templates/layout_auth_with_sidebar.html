@@ -1,220 +1,93 @@
-{% load staticfiles %}
-{% load notifications_tags %}
+{% extends 'layout_common.html' %}
+
 {% load sitetags %}
 
-{% notifications_unread as unread_notifications %}
+{% block top_menu_left_items %}
+    <div class="teal active item">
+        <a href="{% url 'homepage' %}">
+            DevNet
+        </a>
+    </div>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}DevNet{% endblock %}</title>
+    <a class="{% current request 'projects_create' %} item" href="{% url 'projects_create' %}">
+        Add Project
+    </a>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'semantic/dist/semantic.min.css' %}">
+    <a class="{% current request 'projects_list_all' %} item" href="{% url 'projects_list_all' %}">
+        Browse Projects
+    </a>
 
-    <link rel="stylesheet" href="{% static 'css/sidebar-navigation.css' %}">
-    <link rel="stylesheet" href="{% static 'css/notification.css' %}">
-    <link rel="stylesheet" href="{% static 'css/app.css' %}">
-    {% block css %}{% endblock %}
-    {% block head_js %}{% endblock %}
+    <a class="item" href="#">
+        Invest in Project
+    </a>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-</head>
-<body>
-    <div class="ui top attached navigation inverted menu">
+    <a class="item" href="#">
+        News
+    </a>
+
+    <a class="item" href="#">
+        Discussions
+    </a>
+{% endblock %}
+
+{% block top_menu_right_items %}
+    <div class="ui category search item">
+        <div class="ui transparent icon input">
+            <input class="prompt" type="text" placeholder="Search...">
+            <i class="search link icon"></i>
+        </div>
+
+        <div class="results"></div>
+    </div>
+
+    <a class="icon item">
+        <i class="mail icon"></i>
+    </a>
+
+    <div class="ui dropdown item {% current request 'account_settings profiles_update account_logout' %}">
+        <img class="ui avatar image" src="{{ request.user.get_avatar }}">
+        <span>{{ request.user.username }}</span>
+        <i class="dropdown icon"></i>
+
         <div class="menu">
-            <div class="teal active item">
-                <a href="{% url 'homepage' %}">
-                    DevNet
-                </a>
-            </div>
-
-            <a class="{% current request 'projects_create' %} item" href="{% url 'projects_create' %}">
-                Add Project
+            <a class="item" href="{% url 'account_settings' %}">
+                Settings
             </a>
 
-            <a class="{% current request 'projects_list_all' %} item" href="{% url 'projects_list_all' %}">
-                Browse Projects
+            <a class="item" href="{% url 'profiles_update' %}">
+                Profile
             </a>
 
             <a class="item" href="#">
-                Invest in Project
+                Notifications
             </a>
 
-            <a class="item" href="#">
-                News
-            </a>
-
-            <a class="item" href="#">
-                Discussions
-            </a>
-        </div>
-
-        <div class="right menu">
-            <div class="ui category search item">
-                <div class="ui transparent icon input">
-                    <input class="prompt" type="text" placeholder="Search...">
-                    <i class="search link icon"></i>
-                </div>
-
-                <div class="results"></div>
-            </div>
-
-            <a class="icon item">
-                <i class="mail icon"></i>
-            </a>
-
-            <div class="ui dropdown item {% current request 'account_settings profiles_update account_logout' %}">
-                <img class="ui avatar image" src="{{ request.user.get_avatar }}">
-                <span>{{ request.user.username }}</span>
-                <i class="dropdown icon"></i>
-
-                <div class="menu">
-                    <a class="item" href="{% url 'account_settings' %}">
-                        Settings
-                    </a>
-
-                    <a class="item" href="{% url 'profiles_update' %}">
-                        Profile
-                    </a>
-
-                    <a class="item" href="#">
-                        Notifications
-                    </a>
-
-                    <a class="item" href="{% url 'account_logout' %}">
-                        Logout
-                    </a>
-                </div>
-            </div>
-
-            <a class="item" id="notification-button">
-                <i class="alarm icon"></i> (<span id="notification-count">{{ unread_notifications }}</span>)
+            <a class="item" href="{% url 'account_logout' %}">
+                Logout
             </a>
         </div>
     </div>
 
-    <div class="ui bottom attached segment pushable">
-        <div class="ui inverted labeled icon right inline vertical sidebar menu">
-            <a class="item">
-                <i class="home icon"></i>
-                Home
-            </a>
-            <a class="item">
-                <i class="block layout icon"></i>
-                Topics
-            </a>
-            <a class="item">
-                <i class="smile icon"></i>
-                Friends
-            </a>
-            <a class="item">
-                <i class="calendar icon"></i>
-                History
-            </a>
-        </div>
-        <div class="pusher">
-            <div class="ui container">
-                {% block content %}{% endblock %}
-            </div>
-        </div>
-    </div>
+    <a class="item" id="notification-button">
+        <i class="alarm icon"></i> (<span id="notification-count">{{ unread_notifications }}</span>)
+    </a>
+{% endblock %}
 
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-    <script src="{% static 'js/mkE.js' %}"></script>
-    
-    <script src="{% static 'semantic/dist/semantic.min.js' %}"></script>
-    
-
-    <script src="{% get_socket_url %}/socket.io/socket.io.js"></script>
-
-    <script src="{% static 'js/Ajax.js' %}"></script>
-    <script src="{% static 'js/Socket.js' %}"></script>
-    <script src="{% static 'js/Notification.js' %}"></script>
-
-    <script>
-        $(function () {
-            moment.fn.minutesFromNow = function () {
-                var r = Math.floor((+new Date() - (+this)) / 60000);
-                return r + ' min' + ((r === 1) ? '' : 's') + ' ago';
-            };
-
-            moment.fn.timeSince = function () {
-
-                var seconds = Math.floor((new Date() - this) / 1000);
-
-                var interval = Math.floor(seconds / 31536000);
-
-                if (interval > 1) {
-                    return interval + " years";
-                }
-                interval = Math.floor(seconds / 2592000);
-                if (interval > 1) {
-                    return interval + " months";
-                }
-                interval = Math.floor(seconds / 86400);
-                if (interval > 1) {
-                    return interval + " days";
-                }
-                interval = Math.floor(seconds / 3600);
-                if (interval > 1) {
-                    return interval + " hours";
-                }
-                interval = Math.floor(seconds / 60);
-                if (interval > 1) {
-                    return interval + " minutes";
-                }
-                return Math.floor(seconds) + " seconds";
-            };
-
-            $('.ui.dropdown')
-                    .dropdown({
-                        'on': 'hover'
-                    })
-            ;
-
-            $('.ui.sidebar')
-                    .sidebar({
-                        context: $('.bottom.segment')
-                    })
-                    .sidebar('attach events', '#notification-button')
-            ;
-
-            $('.ui.rating')
-                    .rating()
-            ;
-
-            var params = {
-                socketUrl: '{% get_socket_url %}',
-                onMessage: function (message) {
-                    var message_json = jQuery.parseJSON(message);
-
-                    if ("mark_as_read" in message_json) {
-                        notification.setNotificationCounter(0);
-                    } else {
-                        notification.setNotificationCounter(message_json.count);
-                    }
-
-                    notification.loadNotificationItems();
-                }
-            };
-
-            var socket = new Socket(params);
-            socket.connect();
-
-            var notification = new Notification({
-                sendNotificationUrl: '{% url 'user_notifications_send_notification' %}',
-                markAsReadUrl: '{% url 'user_notifications_mark_as_read' %}',
-                getNotificationUrl: '{% url 'user_notifications_get_notifications' %}',
-                socket: socket
-            });
-
-{#            notification.renderNotificationPanel();#}
-        });
-    </script>
-    {% block body_js %}{% endblock %}
-</body>
-</html>
+{% block notification_panel_items %}
+    <a class="item">
+        <i class="home icon"></i>
+        Home
+    </a>
+    <a class="item">
+        <i class="block layout icon"></i>
+        Topics
+    </a>
+    <a class="item">
+        <i class="smile icon"></i>
+        Friends
+    </a>
+    <a class="item">
+        <i class="calendar icon"></i>
+        History
+    </a>
+{% endblock %}

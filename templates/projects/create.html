@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-    <form class="ui form" method="post" action="{% url 'projects_create' %}">
+    <form class="ui {% if not form.is_valid %}warning{% endif %} form" method="post" action="{% url 'projects_create' %}">
         {% csrf_token %}
 
         <h4 class="ui dividing header">Create new Project</h4>
@@ -22,4 +22,6 @@
 
         <button class="ui green basic button" type="submit">{% trans "Create" %}</button>
     </form>
+    
+    <div class="ui divider hidden"></div>
 {% endblock %}

@@ -30,6 +30,7 @@ def create(request):
             form.save_m2m()
     else:
         form = ProjectForm()
+        print('form incorrect')
 
     context = {
         'form': form,
