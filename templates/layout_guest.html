@@ -1,6 +1,7 @@
 {% extends 'layout_common.html' %}
 
 {% load staticfiles %}
+{% load sitetags %}
 
 {% block left_menu %}{% endblock %}
 
@@ -11,11 +12,11 @@
         </a>
     </div>
     
-    <a class="icon item">
+    <a class="{% current request 'projects_list_all' %} item" href="{% url 'projects_list_all' %}">
         Browse Projects
     </a>
     
-    <a class="icon item" href="{% url 'account_signup' %}">
+    <a class="item" href="{% url 'account_signup' %}">
         Sign Up
     </a>
 {% endblock %}

@@ -20,9 +20,11 @@ io.sockets.on('connection', function (socket) {
     // Subscribe to the Redis events channel
     client.subscribe('notifications.' + socket.handshake.cookie['sessionid']);
 
+    // Subscribe to the Redis project feed channel
+    client.psubscribe('projects.*');
+
     // Grab message from Redis and send to client
     client.on('message', function (channel, message) {
-        console.log('on message', message);
         socket.send(message);
     });
 

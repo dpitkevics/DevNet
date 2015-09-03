@@ -1,11 +1,20 @@
 from django.shortcuts import render
-
-from ipware.ip import get_ip
-
-from ratings.models import Rating
+from django.http.response import JsonResponse
 
 from .models import Project
 from .forms import ProjectForm
+from .serializers import ProjectSerializer
+
+
+def get_all(request):
+    project_set = []
+
+    for project in Project.objects.order_by('-created').all()[:12]:
+        project_serializer = ProjectSerializer(project)
+
+        project_set.append(project_serializer.data)
+
+    return JsonResponse(project_set, safe=False)
 
 
 def list_all(request):

@@ -3,16 +3,29 @@ function Notification (params) {
 
     this.ajax = new Ajax();
 
-    this.loadNotificationItems = function () {
+    this.loadNotificationItems = function (searchQuery) {
+        var data;
+        if (typeof searchQuery != 'undefined') {
+            data = {
+                query: searchQuery
+            };
+        } else {
+            data = {};
+        }
+
         this.ajax.makeCall({
             url: this.params.getNotificationUrl,
-            successCallback: $.proxy(this.loadNotificationItemsCallback, this)
+            successCallback: $.proxy(this.loadNotificationItemsCallback, this),
+            data: data
         });
     };
 
     this.loadNotificationItemsCallback = function (data) {
         this.renderNotificationItems(data);
+
+        $(this.searchNode).removeClass('loading');
     };
+
 
     this.renderNotificationItems = function (data) {
         mkE.clearNode(this.notificationItemNode);
@@ -29,28 +42,6 @@ function Notification (params) {
             return false;
         }
 
-    //    <div class="ui link card">
-    //    <div class="content">
-    //        <div class="header">New contributor</div>
-    //        <div class="description">
-    //            <p>
-    //                I am now contributing to "DevNet social network"
-    //            </p>
-    //        </div>
-    //    </div>
-    //
-    //    <div class="extra content">
-    //        <i class="clock icon"></i>
-    //        10 minutes ago
-    //    </div>
-    //
-    //    <div class="extra content">
-    //        <div class="author">
-    //            <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/small/matt.jpg"> Matt
-    //        </div>
-    //    </div>
-    //</div>
-
         var itemNode = mkE({
             tag: 'div',
             className: 'ui link card',
@@ -62,7 +53,7 @@ function Notification (params) {
                         {
                             tag: 'div',
                             className: 'header',
-                            text: 'New contributor'
+                            text: obj.verb
                         },
                         {
                             tag: 'div',
@@ -70,7 +61,7 @@ function Notification (params) {
                             els: [
                                 {
                                     tag: 'p',
-                                    text: obj.verb
+                                    text: obj.description
                                 }
                             ]
                         }
@@ -102,12 +93,12 @@ function Notification (params) {
                                     tag: 'img',
                                     className: 'ui avatar image',
                                     attr: {
-                                        'src': 'http://semantic-ui.com/images/avatar/small/matt.jpg'
+                                        'src': obj.avatar
                                     }
                                 },
                                 {
                                     tag: 'span',
-                                    text: 'Matt'
+                                    text: obj.username
                                 }
                             ]
                         }
@@ -128,6 +119,10 @@ function Notification (params) {
             els: [
                 {
                     tag: 'div',
+                    className: 'ui divider hidden'
+                },
+                this.searchNode = mkE({
+                    tag: 'div',
                     className: 'ui search',
                     els: [
                         {
@@ -141,11 +136,15 @@ function Notification (params) {
                                         type: 'text',
                                         placeholder: 'Search...'
                                     }
-                                })
+                                }),
+                                {
+                                    tag: 'i',
+                                    className: 'search icon'
+                                }
                             ]
                         }
                     ]
-                },
+                }),
                 {
                     tag: 'div',
                     className: 'ui divider'
@@ -156,35 +155,31 @@ function Notification (params) {
             ]
         });
 
+        this.searchInputNode.addEventListener('keyup', $.proxy(this.onSearchInputChange, this));
+
         $('#notification-sidebar').html(this.node);
     };
 
-    this.toggleNotificationPanel = function (event) {
-        event.preventDefault();
-
-        var nodeObject = $(this.node);
-        var parentNode = nodeObject.parent();
-
-        var pixelsFromRight = 0;
-
-        if (parentNode.css('right').replace('px', '') == 0) {
-            pixelsFromRight = -250;
-        } else {
-            this.markAsRead();
+    this.onSearchInputChange = function () {
+        if (typeof this.timer == 'undefined') {
+            this.timer = 0;
         }
 
-        parentNode.animate({
-            right: pixelsFromRight
-        }, 300);
+        clearTimeout(this.timer);
+        this.timer = setTimeout($.proxy(function () {
+            $(this.searchNode).addClass('loading');
+            this.loadNotificationItems($(this.searchInputNode).val());
+        }, this), 500);
     };
 
-    this.sendNotification = function (receiver, message, successCallback) {
+    this.sendNotification = function (receiver, message, description, successCallback) {
         $.ajax({
             url: this.params.sendNotificationUrl,
             type: 'POST',
             data: {
                 'receiver': receiver,
-                'verb': message
+                'verb': message,
+                'description': description
             },
             success: successCallback,
             beforeSend: $.proxy(function (xhr) {

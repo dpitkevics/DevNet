@@ -3,7 +3,7 @@
 {% load sitetags %}
 
 {% block top_menu_left_items %}
-    <div class="teal active item">
+    <div class="red active item">
         <a href="{% url 'welcome_index' %}">
             DevNet
         </a>
@@ -71,60 +71,4 @@
     <a class="item" id="notification-button">
         <i class="alarm icon"></i> (<span id="notification-count">{{ unread_notifications }}</span>)
     </a>
-{% endblock %}
-
-{% block notification_panel_items %}
-    <div class="ui search">
-        <div class="ui icon input">
-            <input class="prompt" type="text" placeholder="Search...">
-            <i class="search icon"></i>
-        </div>
-        <div class="results"></div>
-    </div>
-
-    <div class="ui divider"></div>
-
-    <div class="ui link card">
-        <div class="content">
-            <div class="header">New contributor</div>
-            <div class="description">
-                <p>
-                    I am now contributing to "DevNet social network"
-                </p>
-            </div>
-        </div>
-
-        <div class="extra content">
-            <i class="clock icon"></i>
-            10 minutes ago
-        </div>
-
-        <div class="extra content">
-            <div class="author">
-                <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/small/matt.jpg"> Matt
-            </div>
-        </div>
-    </div>
-
-    <div class="ui link card">
-        <div class="content">
-            <div class="header">New contributor</div>
-            <div class="description">
-                <p>
-                    I am now contributing to "DevNet social network"
-                </p>
-            </div>
-        </div>
-
-        <div class="extra content">
-            <i class="clock icon"></i>
-            10 minutes ago
-        </div>
-
-        <div class="extra content">
-            <div class="author">
-                <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/small/matt.jpg"> Matt
-            </div>
-        </div>
-    </div>
 {% endblock %}

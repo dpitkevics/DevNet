@@ -1,9 +1,23 @@
 {% extends 'layout.html' %}
 
+{% load staticfiles %}
+
 {% block content %}
-    <div class="ui cards">
-        {% for project in projects %}
-            {% include 'projects/_project_box.html' with project=project %}
-        {% endfor %}
-    </div>
+    <div id="project-feed"></div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+
+    <script src="{% static 'js/Project.js' %}"></script>
+
+    <script>
+        $(function () {
+            var project = new Project({
+                getProjectsUrl: '{% url 'projects_get_all' %}'
+            });
+
+            project.renderProjectPanel();
+        });
+    </script>
 {% endblock %}

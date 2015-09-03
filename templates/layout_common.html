@@ -100,23 +100,6 @@
                 return Math.floor(seconds) + " seconds";
             };
 
-            $('.ui.dropdown')
-                    .dropdown({
-                        'on': 'hover'
-                    })
-            ;
-
-            $('.ui.sidebar')
-                    .sidebar({
-                        context: $('.bottom.segment')
-                    })
-                    .sidebar('attach events', '#notification-button')
-            ;
-
-            $('.ui.rating')
-                    .rating()
-            ;
-
             var params = {
                 socketUrl: '{% get_socket_url %}',
                 onMessage: function (message) {
@@ -143,6 +126,23 @@
             });
 
             notification.renderNotificationPanel();
+
+            $('.ui.dropdown')
+                    .dropdown({
+                        'on': 'hover'
+                    })
+            ;
+
+            $('.ui.sidebar')
+                    .sidebar({
+                        context: $('.bottom.segment'),
+                        overlay: true,
+                        onShow: function () {
+                            notification.markAsRead();
+                        }
+                    })
+                    .sidebar('attach events', '#notification-button')
+            ;
         });
     </script>
     {% block body_js %}{% endblock %}

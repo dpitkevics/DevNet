@@ -5,6 +5,7 @@ from notifications import notify
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -15,9 +16,16 @@ from .serializers import NotificationSerializer
 
 @login_required
 def get_notifications(request):
+    query = request.POST.get('query', None)
+
     notification_serializer_set = []
 
-    for notification in request.user.notifications.order_by('-timestamp').all().exclude(verb="")[:5]:
+    if query is not None:
+        notifications = request.user.notifications.order_by('-timestamp').filter(Q(verb__contains=query) | Q(description__contains=query)).exclude(verb="")[:5]
+    else:
+        notifications = request.user.notifications.order_by('-timestamp').all().exclude(verb="")[:5]
+
+    for notification in notifications:
         notification_serializer = NotificationSerializer(notification)
 
         notification_serializer_set.append(notification_serializer.data)
@@ -38,7 +46,8 @@ def send_notification(request):
         notify.send(
             request.user,
             recipient=recipient,
-            verb=request.POST.get('verb', '')
+            verb=request.POST.get('verb', ''),
+            description=request.POST.get('description', '')
         )
 
     return HttpResponse(json.dumps({"success": True}), content_type="application/json")
@@ -72,15 +81,4 @@ def on_notification_post_save(sender, **kwargs):
             json.dumps(dict(
                 count=recipient.notifications.unread().count()
             ))
-            # json.dumps(
-            #     dict(
-            #         timestamp=notification.timestamp.isoformat(),
-            #         recipient=notification.recipient.username,
-            #         actor=notification.actor.username,
-            #         verb=notification.verb,
-            #         action_object=notification.action_object,
-            #         target=notification.target,
-            #         description=notification.description
-            #     )
-            # )
         )
