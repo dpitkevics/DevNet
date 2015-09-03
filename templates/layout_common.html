@@ -59,7 +59,7 @@
     <script src="{% static 'semantic/dist/semantic.min.js' %}"></script>
     
 
-    {# <script src="{% get_socket_url %}/socket.io/socket.io.js"></script> #}
+    <script src="{% get_socket_url %}/socket.io/socket.io.js"></script>
 
     <script src="{% static 'js/Ajax.js' %}"></script>
     <script src="{% static 'js/Socket.js' %}"></script>
@@ -118,7 +118,7 @@
             ;
 
             var params = {
-                socketUrl: {# '{% get_socket_url %}' #},
+                socketUrl: '{% get_socket_url %}',
                 onMessage: function (message) {
                     var message_json = jQuery.parseJSON(message);
 
