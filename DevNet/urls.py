@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^$', include('main.urls')),
+    url(r'^$', include('welcome.urls')),
     url(r'^profile/', include('profiles.urls')),
     url(r'^notification/', include('user_notifications.urls')),
     url(r'^project/', include('projects.urls')),

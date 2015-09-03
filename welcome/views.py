@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 def index(request):
     context = {}
 
-    return render(request, 'main/index.html', context)
+    return render(request, 'welcome/index.html', context)
 
 
 @csrf_exempt
