@@ -136,10 +136,10 @@
             $('.ui.sidebar')
                     .sidebar({
                         context: $('.bottom.segment'),
-                        overlay: true,
                         onShow: function () {
                             notification.markAsRead();
-                        }
+                        },
+			transition: 'overlay'
                     })
                     .sidebar('attach events', '#notification-button')
             ;

@@ -1,4 +1,4 @@
 from django.conf import settings
 
 
-SOCKET_URL = getattr(settings, 'SITE_URL', 'http://localhost:8002')
+SOCKET_URL = getattr(settings, 'SITE_URL', 'http://jooglin.com:8002')
