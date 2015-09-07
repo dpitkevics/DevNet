@@ -43,3 +43,7 @@ html, body {
     background-color: #f2711c !important;
     border-color: #f2711c !important;
 }
+
+.page-header {
+    padding: 15px 0 !important;
+}

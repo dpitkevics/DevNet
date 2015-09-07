@@ -8,7 +8,7 @@ function Ajax(params) {
             url: this.params.url,
             type: 'POST',
             data: this.params.data || {},
-            success: this.params.successCallback,
+            success: this.params.successCallback || function () {},
             beforeSend: $.proxy(function (xhr) {
                 var csrftoken = this.getCookie('csrftoken');
                 xhr.setRequestHeader('X-CSRFToken', csrftoken);

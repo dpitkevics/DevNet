@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'ratings',
     'skills',
     'semanticui_forms',
+    'categories',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -3,6 +3,8 @@ function Project (params) {
 
     this.ajax = new Ajax();
 
+    this.initedRatings = [];
+
     this.loadProjectItems = function () {
         this.ajax.makeCall({
             url: this.params.getProjectsUrl,
@@ -21,8 +23,13 @@ function Project (params) {
             this.renderProjectItem(obj);
         }
 
-        $('.ui.rating')
-            .rating()
+        var that = this;
+        var rating = $('.ui.rating')
+            .rating({
+                    onRate: function (rate) {
+                        that.onRate(rate, $(this));
+                    }
+                })
         ;
     };
 
@@ -30,6 +37,9 @@ function Project (params) {
         var itemNode = mkE({
             tag: 'div',
             className: 'ui card',
+            attr: {
+                'data-slug': obj.slug
+            },
             els: [
                 {
                     tag: 'div',
@@ -88,7 +98,7 @@ function Project (params) {
                                     tag: 'div',
                                     className: 'ui rating',
                                     attr: {
-                                        'data-rating': obj.rating,
+                                        'data-rating': Math.round(obj.rating),
                                         'data-max-rating': 5
                                     }
                                 }
@@ -119,5 +129,30 @@ function Project (params) {
         });
 
         $("#project-feed").html(this.node);
+    };
+
+    this.onRate = function (rate, object) {
+        var slug = object.parents('div.ui.card').data('slug');
+
+        if ($.inArray(slug, this.initedRatings) < 0) {
+            this.initedRatings.push(slug);
+
+            return false;
+        }
+
+        this.ajax.makeCall({
+            url: '/ratings/add/',
+            successCallback: $.proxy(this.onRateCallback, this),
+            data: {
+                'rate': rate,
+                'app_label': 'projects',
+                'model': 'project',
+                'slug': slug
+            }
+        });
+    };
+
+    this.onRateCallback = function (data) {
+
     };
 }

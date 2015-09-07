@@ -1,5 +1,5 @@
 from django import template
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import resolve
 
 from DevNet import local_settings
 
@@ -14,6 +14,8 @@ def get_socket_url():
  
 @register.simple_tag
 def current(request, urls):
-    if request.path in ( reverse(url) for url in urls.split() ):
+    current_url = resolve(request.path_info).url_name
+
+    if current_url in urls:
         return "active-menu-item"
     return ""

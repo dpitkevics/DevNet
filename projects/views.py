@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http.response import JsonResponse
 
+from categories.models import Category
+
 from .models import Project
 from .forms import ProjectForm
 from .serializers import ProjectSerializer
@@ -17,6 +19,17 @@ def get_all(request):
     return JsonResponse(project_set, safe=False)
 
 
+def get_by_category(request, category):
+    project_set = []
+
+    for project in Project.objects.order_by('-created').filter(category__slug=category)[:12]:
+        project_serializer = ProjectSerializer(project)
+
+        project_set.append(project_serializer.data)
+
+    return JsonResponse(project_set, safe=False)
+
+
 def list_all(request):
     projects = Project.objects.all().order_by('-created')[:10]
 
@@ -25,6 +38,17 @@ def list_all(request):
     }
 
     return render(request, 'projects/list_all.html', context)
+
+
+def list_category(request, category):
+    projects = Project.objects.filter(category__slug=category).order_by('-created')[:10]
+
+    context = {
+        'projects': projects,
+        'category': Category.manager.get_by_slug(category)
+    }
+
+    return render(request, 'projects/list_category.html', context)
 
 
 def create(request):

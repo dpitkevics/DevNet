@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^profile/', include('profiles.urls')),
     url(r'^notification/', include('user_notifications.urls')),
     url(r'^project/', include('projects.urls')),
+    url(r'^ratings/', include('ratings.urls')),
 
     url(r"^account/", include("account.urls")),
     url(r'^notifications/', include('notifications.urls')),

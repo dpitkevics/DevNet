@@ -3,7 +3,7 @@
 {% load staticfiles %}
 
 {% block content %}
-    <h2 class="ui dividing header page-header">All Projects</h2>
+    <h2 class="ui dividing header page-header">{{ category }}</h2>
 
     <div id="project-feed"></div>
 {% endblock %}
@@ -16,7 +16,7 @@
     <script>
         $(function () {
             var project = new Project({
-                getProjectsUrl: '{% url 'projects_get_all' %}'
+                getProjectsUrl: '{% url 'projects_get_by_category' category=category.slug %}'
             });
 
             project.renderProjectPanel();

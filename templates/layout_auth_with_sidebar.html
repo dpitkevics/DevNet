@@ -1,6 +1,7 @@
 {% extends 'layout_common.html' %}
 
 {% load sitetags %}
+{% load categories %}
 
 {% block top_menu_left_items %}
     <div class="red active item">
@@ -13,9 +14,22 @@
         Add Project
     </a>
 
-    <a class="{% current request 'projects_list_all' %} item" href="{% url 'projects_list_all' %}">
+    <div class="ui dropdown item {% current request 'projects_list_all projects_list_category' %}">
         Browse Projects
-    </a>
+        <i class="dropdown icon"></i>
+
+        {% get_categories as categories %}
+
+        <div class="menu">
+            <a class="item" href="{% url 'projects_list_all' %}">
+                All Projects
+            </a>
+
+            {% for category in categories %}
+                <a class="item" href="{% url 'projects_list_category' category=category.slug %}">{{ category }}</a>
+            {% endfor %}
+        </div>
+    </div>
 
     <a class="item" href="#">
         Invest in Project
