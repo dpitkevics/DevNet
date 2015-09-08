@@ -19,6 +19,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
+SITE_ID = 1
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'x7_(^30+0nax6=r&no5kvw6fdb6zsw+9-_ch6!51f56tfo3()f'
 
@@ -44,6 +46,7 @@ INSTALLED_APPS = (
     'notifications',
     'rest_framework',
     'django_gulp',
+    'django.contrib.sites',
     'welcome',
     'profiles',
     'user_notifications',
@@ -52,6 +55,7 @@ INSTALLED_APPS = (
     'skills',
     'semanticui_forms',
     'categories',
+    'comments',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -145,3 +149,7 @@ TAGGIT_CASE_INSENSITIVE = True
 # Session Configuration
 
 SESSION_ENGINE = 'user_sessions.backends.db'
+
+# Comments Configuration
+
+COMMENTS_APP = 'threadedcomments'
