@@ -1,0 +1,231 @@
+{% extends 'layout.html' %}
+
+{% load staticfiles %}
+{% load ratingtags %}
+
+{% get_rating project as rating %}
+
+{% block content %}
+    <div class="ui grid">
+        <div class="four wide column">
+            <div class="ui card">
+                <div class="image">
+                    <img src="{{ project.image|default:project.default_image }}" alt="{{ project }}" />
+                </div>
+
+                <div class="content text-center">
+                    <a class="ui green button">
+                        <i class="check square icon"></i>
+                        Participate
+                    </a>
+                </div>
+
+                <div class="extra content">
+                    <div class="ui three column grid text-center">
+                        <div class="row">
+                            <div class="column">
+                                <i class="users icon"></i>
+                                {{ project.projectparticipant_set.count }}
+                            </div>
+
+                            <div class="column">
+                                <i class="star icon"></i>
+                                {{ rating.total_score|default:0 }}
+                            </div>
+
+                            <div class="column">
+                                <i class="comments icon"></i>
+                                10
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content">
+                    <div class="ui vertical fluid buttons">
+                        <a class="ui labeled icon purple basic button">
+                            <i class="user icon"></i>
+                            Author Profile
+                        </a>
+
+                        <a class="ui labeled icon blue basic button">
+                            <i class="mail icon"></i>
+                            Send Message
+                        </a>
+
+                        <a class="ui labeled icon red basic button">
+                            <i class="warning sign icon"></i>
+                            Report Project
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="twelve wide column">
+            <h1 class="ui header page-header">{{ project }}</h1>
+
+            <div class="ui grid">
+                <div class="row">
+                    <div class="column teal">
+                        <h3>
+                            <i class="circle info icon"></i>
+                            About
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="column">
+                        <p>
+                            {{ project.description }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="column">
+                        <a class="ui brown label popup-item" data-content="Category" href="{% url 'projects_list_category' category=project.category.slug %}">
+                            <i class="tags icon"></i>
+                            {{ project.category }}
+                        </a>
+
+                        {% for skill in project.required_skill_set.all %}
+                            <a class="ui olive label popup-item" data-content="Required skill">
+                                <i class="student icon"></i>
+                                {{ skill }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui hidden divider"></div>
+
+            <div class="ui grid">
+                <div class="row">
+                    <div class="column teal">
+                        <h3>
+                            <i class="comments icon"></i>
+                            Comments
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="column">
+                        <div class="ui comments" style="max-width: none">
+                            <div class="comment">
+                                <a class="avatar">
+                                    <img src="http://semantic-ui.com/images/avatar/small/matt.jpg">
+                                </a>
+
+                                <div class="content">
+                                    <a class="author">Matt</a>
+
+                                    <div class="metadata">
+                                        <span class="date">Today at 5:42PM</span>
+                                    </div>
+                                    <div class="text">
+                                        How artistic!
+                                    </div>
+                                    <div class="actions">
+                                        <a class="reply">Reply</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment">
+                                <a class="avatar">
+                                    <img src="http://semantic-ui.com/images/avatar/small/elliot.jpg">
+                                </a>
+
+                                <div class="content">
+                                    <a class="author">Elliot Fu</a>
+
+                                    <div class="metadata">
+                                        <span class="date">Yesterday at 12:30AM</span>
+                                    </div>
+                                    <div class="text">
+                                        <p>This has been very useful for my research. Thanks as well!</p>
+                                    </div>
+                                    <div class="actions">
+                                        <a class="reply">Reply</a>
+                                    </div>
+                                </div>
+                                <div class="comments">
+                                    <div class="comment">
+                                        <a class="avatar">
+                                            <img src="http://semantic-ui.com/images/avatar/small/jenny.jpg">
+                                        </a>
+
+                                        <div class="content">
+                                            <a class="author">Jenny Hess</a>
+
+                                            <div class="metadata">
+                                                <span class="date">Just now</span>
+                                            </div>
+                                            <div class="text">
+                                                Elliot you are always so right :)
+                                            </div>
+                                            <div class="actions">
+                                                <a class="reply">Reply</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comment">
+                                <a class="avatar">
+                                    <img src="http://semantic-ui.com/images/avatar/small/joe.jpg">
+                                </a>
+
+                                <div class="content">
+                                    <a class="author">Joe Henderson</a>
+
+                                    <div class="metadata">
+                                        <span class="date">5 days ago</span>
+                                    </div>
+                                    <div class="text">
+                                        Dude, this is awesome. Thanks so much
+                                    </div>
+                                    <div class="actions">
+                                        <a class="reply">Reply</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <form class="ui reply form">
+                                <div class="field">
+                                    <textarea class="fluid"></textarea>
+                                </div>
+                                <div class="ui blue labeled submit icon button">
+                                    <i class="icon edit"></i> Add Reply
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui hidden divider"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body_js %}
+    {{ block.super }}
+
+    <script src="{% static 'js/Project.js' %}"></script>
+
+    <script>
+        $(function () {
+            var project = new Project({
+                getProjectsUrl: '{% url 'projects_get_all' %}'
+            });
+
+            $('.popup-item')
+                    .popup()
+            ;
+        });
+    </script>
+{% endblock %}

@@ -9,6 +9,8 @@ from ratings.models import Rating
 from skills.models import Skill
 from categories.models import Category
 
+from .managers import ProjectManager
+
 
 class Project(TimeStampedModel):
     author = models.ForeignKey(User)
@@ -20,6 +22,9 @@ class Project(TimeStampedModel):
     slug = models.SlugField()
     
     required_skill_set = models.ManyToManyField(Skill)
+
+    objects = models.Manager()
+    manager = ProjectManager()
 
     def __str__(self):
         return self.title

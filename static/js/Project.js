@@ -81,6 +81,7 @@ function Project (params) {
                     els: [
                         {
                             tag: 'a',
+                            href: '/project/view/' + obj.slug,
                             className: 'header',
                             text: obj.title
                         }

@@ -6,6 +6,10 @@ html, body {
     color: #92D36E;
 }
 
+.color-white {
+    color: #ffffff;
+}
+
 .navbar-top {
     margin-bottom: 0;
 }
@@ -46,4 +50,8 @@ html, body {
 
 .page-header {
     padding: 15px 0 !important;
+}
+
+.text-center {
+    text-align: center;
 }
