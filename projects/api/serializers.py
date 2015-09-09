@@ -2,15 +2,17 @@ from rest_framework import serializers
 
 from ratings.templatetags import ratingtags
 
-from .models import Project
+from ..models import Project
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    preview_image = serializers.SerializerMethodField()
+    author = serializers.StringRelatedField()
     author_avatar = serializers.SerializerMethodField()
-    author_name = serializers.SerializerMethodField()
-    contributor_count = serializers.SerializerMethodField()
+    category = serializers.StringRelatedField()
+    required_skill_set = serializers.StringRelatedField(many=True)
+    preview_image = serializers.SerializerMethodField()
     rating = serializers.SerializerMethodField()
+    contributor_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Project
@@ -24,14 +26,8 @@ class ProjectSerializer(serializers.ModelSerializer):
     def get_author_avatar(self, obj):
         return obj.author.get_avatar()
 
-    def get_author_name(self, obj):
-        if obj.author.get_full_name():
-            return obj.author.get_full_name()
-
-        return obj.author.username
-
-    def get_contributor_count(self, obj):
-        return len(obj.projectparticipant_set.all())
-
     def get_rating(self, obj):
         return ratingtags.get_rating(obj).total_score
+
+    def get_contributor_count(self, obj):
+        return obj.projectparticipant_set.count()

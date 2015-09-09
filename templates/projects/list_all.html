@@ -16,7 +16,7 @@
     <script>
         $(function () {
             var project = new Project({
-                getProjectsUrl: '{% url 'projects_get_all' %}'
+                ajaxUrl: '{% url 'api_projects_list' %}'
             });
 
             project.renderProjectPanel();

@@ -7,7 +7,8 @@ function Project (params) {
 
     this.loadProjectItems = function () {
         this.ajax.makeCall({
-            url: this.params.getProjectsUrl,
+            url: this.params.ajaxUrl,
+            type: 'get',
             successCallback: $.proxy(this.loadProjectItemsCallback, this)
         });
     };
@@ -59,7 +60,7 @@ function Project (params) {
                         },
                         {
                             tag: 'span',
-                            text: obj.author_name
+                            text: obj.author
                         }
                     ]
                 },

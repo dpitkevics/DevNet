@@ -6,7 +6,7 @@ function Ajax(params) {
 
         $.ajax({
             url: this.params.url,
-            type: 'POST',
+            type: this.params.type || 'post',
             data: this.params.data || {},
             success: this.params.successCallback || function () {},
             beforeSend: $.proxy(function (xhr) {
