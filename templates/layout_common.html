@@ -19,17 +19,17 @@
     {% block css %}{% endblock %}
     {% block head_js %}{% endblock %}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="{% static 'modernizr/modernizr.js' %}"></script>
 </head>
-<body>
+<body ng-app="devnet">
     {% block top_menu %}
-        <div class="ui top attached navigation inverted menu">
+        <div class="ui top attached navigation inverted menu" ng-controller="MenuController">
             {% block top_menu_left %}
                 <div class="menu">
                     {% block top_menu_left_items %}{% endblock %}
                 </div>
             {% endblock %}
-    
+
             {% block top_menu_right %}
                 <div class="right menu">
                     {% block top_menu_right_items %}{% endblock %}
@@ -45,21 +45,27 @@
             </div>
         {% endblock %}
         <div class="pusher">
-            <div class="ui container">
+            <div class="ui container" ng-controller="{% block ng_controller %}{% endblock %}">
                 {% block content %}{% endblock %}
             </div>
         </div>
     </div>
 
+    <script src="{% static 'angular/angular.min.js' %}"></script>
+    <script src="{% static 'angular-resource/angular-resource.min.js' %}"></script>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="{% static 'moment/min/moment.min.js' %}"></script>
     <script src="{% static 'js/mkE.js' %}"></script>
     
     <script src="{% static 'semantic/dist/semantic.min.js' %}"></script>
     
 
     <script src="{% get_socket_url %}/socket.io/socket.io.js"></script>
+
+    <script src="{% static 'js/app.js' %}"></script>
+
+    <script src="{% static 'js/models/Category.js' %}"></script>
+    <script src="{% static 'js/controllers/MenuController.js' %}"></script>
 
     <script src="{% static 'js/Ajax.js' %}"></script>
     <script src="{% static 'js/Socket.js' %}"></script>

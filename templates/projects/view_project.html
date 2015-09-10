@@ -5,6 +5,8 @@
 
 {% get_rating project as rating %}
 
+{% block ng_controller %}ProjectController{% endblock %}
+
 {% block content %}
     <div class="ui grid">
         <div class="four wide column">
@@ -215,17 +217,6 @@
 {% block body_js %}
     {{ block.super }}
 
-    <script src="{% static 'js/Project.js' %}"></script>
-
-    <script>
-        $(function () {
-            var project = new Project({
-                getProjectsUrl: '{% url 'projects_get_all' %}'
-            });
-
-            $('.popup-item')
-                    .popup()
-            ;
-        });
-    </script>
+    <script src="{% static 'js/models/Project.js' %}"></script>
+    <script src="{% static 'js/controllers/ProjectController.js' %}"></script>
 {% endblock %}

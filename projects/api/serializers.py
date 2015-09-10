@@ -1,3 +1,5 @@
+from django.core.urlresolvers import reverse
+
 from rest_framework import serializers
 
 from ratings.templatetags import ratingtags
@@ -13,6 +15,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     preview_image = serializers.SerializerMethodField()
     rating = serializers.SerializerMethodField()
     contributor_count = serializers.SerializerMethodField()
+    url = serializers.SerializerMethodField()
 
     class Meta:
         model = Project
@@ -31,3 +34,6 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_contributor_count(self, obj):
         return obj.projectparticipant_set.count()
+
+    def get_url(self, obj):
+        return reverse('projects_view_project', kwargs={'slug': obj.slug})

@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'django_gulp',
     'django.contrib.sites',
+    'djangobower',
     'welcome',
     'profiles',
     'user_notifications',
@@ -126,6 +127,13 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'bower', 'bower_components')
+)
+
+STATICFILES_FINDERS =(
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "djangobower.finders.BowerFinder",
 )
 
 # Accounts Configuration
@@ -153,3 +161,15 @@ SESSION_ENGINE = 'user_sessions.backends.db'
 # Comments Configuration
 
 COMMENTS_APP = 'threadedcomments'
+
+# Bower Configuration
+
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'bower')
+
+BOWER_INSTALLED_APPS = (
+    'underscore',
+    'modernizr',
+    'moment',
+    'angular',
+    'angular-resource',
+)

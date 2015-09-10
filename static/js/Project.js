@@ -119,6 +119,7 @@ function Project (params) {
             ]
         });
 
+        console.log(itemNode);
         itemNode.append(this.node);
     };
 

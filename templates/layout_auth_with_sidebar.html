@@ -1,5 +1,6 @@
 {% extends 'layout_common.html' %}
 
+{% load staticfiles %}
 {% load sitetags %}
 {% load categories %}
 
@@ -25,9 +26,13 @@
                 All Projects
             </a>
 
-            {% for category in categories %}
-                <a class="item" href="{% url 'projects_list_category' category=category.slug %}">{{ category.title }}</a>
-            {% endfor %}
+            {% verbatim %}
+            <a class="item" href="{{ category.url }}" ng-repeat="category in categories">{{ category.title }}</a>
+            {% endverbatim %}
+
+{#            {% for category in categories %}#}
+{#                <a class="item" href="{% url 'projects_list_category' category=category.slug %}">{{ category.title }}</a>#}
+{#            {% endfor %}#}
         </div>
     </div>
 
