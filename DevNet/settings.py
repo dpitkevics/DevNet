@@ -172,4 +172,5 @@ BOWER_INSTALLED_APPS = (
     'moment',
     'angular',
     'angular-resource',
+    'semantic-ui',
 )

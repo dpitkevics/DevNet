@@ -2,7 +2,7 @@
 
 {% load staticfiles %}
 
-{% block ng_controller %}ProjectController{% endblock %}
+{% block ng_controller %}ProjectsController{% endblock %}
 
 {% block content %}
     <h2 class="ui dividing header page-header">All Projects</h2>
@@ -41,5 +41,5 @@
     {{ block.super }}
 
     <script src="{% static 'js/models/Project.js' %}"></script>
-    <script src="{% static 'js/controllers/ProjectController.js' %}"></script>
+    <script src="{% static 'js/controllers/ProjectsController.js' %}"></script>
 {% endblock %}

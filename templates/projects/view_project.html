@@ -7,12 +7,15 @@
 
 {% block ng_controller %}ProjectController{% endblock %}
 
+{% block ng_init %}init('{{ slug }}'){% endblock %}
+
 {% block content %}
+    {% verbatim %}
     <div class="ui grid">
         <div class="four wide column">
             <div class="ui card">
                 <div class="image">
-                    <img src="{{ project.image|default:project.default_image }}" alt="{{ project }}" />
+                    <img src="{{ project.preview_image }}" alt="{{ project.title }}"/>
                 </div>
 
                 <div class="content text-center">
@@ -27,12 +30,12 @@
                         <div class="row">
                             <div class="column">
                                 <i class="users icon"></i>
-                                {{ project.projectparticipant_set.count }}
+                                {{ project.contributor_count }}
                             </div>
 
                             <div class="column">
                                 <i class="star icon"></i>
-                                {{ rating.total_score|default:0 }}
+                                {{ project.rating }}
                             </div>
 
                             <div class="column">
@@ -65,7 +68,7 @@
         </div>
 
         <div class="twelve wide column">
-            <h1 class="ui header page-header">{{ project }}</h1>
+            <h1 class="ui header page-header">{{ project.title }}</h1>
 
             <div class="ui grid">
                 <div class="row">
@@ -87,17 +90,16 @@
 
                 <div class="row">
                     <div class="column">
-                        <a class="ui brown label popup-item" data-content="Category" href="{% url 'projects_list_category' category=project.category.slug %}">
+                        <a class="ui brown label popup-item" data-content="Category"
+                           href="{% url 'projects_list_category' category=project.category.slug %}">
                             <i class="tags icon"></i>
                             {{ project.category }}
                         </a>
 
-                        {% for skill in project.required_skill_set.all %}
-                            <a class="ui olive label popup-item" data-content="Required skill">
-                                <i class="student icon"></i>
-                                {{ skill }}
-                            </a>
-                        {% endfor %}
+                        <a class="ui olive label popup-item" data-content="Required skill" ng-repeat="skill in project.required_skill_set">
+                            <i class="student icon"></i>
+                            {{ skill }}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -212,6 +214,7 @@
             <div class="ui hidden divider"></div>
         </div>
     </div>
+    {% endverbatim %}
 {% endblock %}
 
 {% block body_js %}

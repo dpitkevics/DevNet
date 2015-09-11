@@ -1,11 +1,6 @@
 from django.shortcuts import render
-from django.http.response import JsonResponse, HttpResponseRedirect
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse
-
 from categories.models import Category
 
-from .models import Project
 from .forms import ProjectForm
 
 
@@ -17,20 +12,15 @@ def list_all(request):
 
 def list_category(request, category):
     context = {
-        'category': Category.manager.get_by_slug(category),
+        'category': category,
     }
 
     return render(request, 'projects/list_category.html', context)
 
 
 def view_project(request, slug):
-    try:
-        project = Project.manager.get_by_slug(slug)
-    except ObjectDoesNotExist:
-        return HttpResponseRedirect(reverse('projects_list_all'))
-
     context = {
-        'project': project
+        'slug': slug,
     }
 
     return render(request, 'projects/view_project.html', context)

@@ -2,24 +2,46 @@
 
 {% load staticfiles %}
 
-{% block content %}
-    <h2 class="ui dividing header page-header">{{ category }}</h2>
+{% block ng_controller %}CategoryProjectsController{% endblock %}
 
-    <div id="project-feed"></div>
+{% block ng_init %}init('{{ category }}'){% endblock %}
+
+{% block content %}
+    {% verbatim %}
+        <h2 class="ui dividing header page-header">{{ category.title }}</h2>
+
+        <div class="ui cards">
+            <div data-slug="{{ project.slug }}" class="ui card" ng-repeat="project in projects">
+                <div class="content">
+                    <div class="right floated meta">{{ project.created|date:"d. MMM, H:mm" }}</div>
+                    <img src="{{ project.author_avatar }}" class="ui avatar image">
+                    <span>{{ project.author }}</span>
+                </div>
+
+                <div class="image">
+                    <img src="{{ project.preview_image }}">
+                </div>
+
+                <div class="content">
+                    <a href="{{ project.url }}" class="header">{{ project.title }}</a>
+                </div>
+
+                <div class="extra content">
+                    <span class="right floated">
+                        <div class="ui rating" data-rating="{{ project.rating }}" data-max-rating="5"></div>
+                    </span>
+
+                    <i class="users icon"></i>
+                    <span>{{ project.contributor_count }} contributors</span>
+                </div>
+            </div>
+        </div>
+    {% endverbatim %}
 {% endblock %}
 
 {% block body_js %}
     {{ block.super }}
 
-    <script src="{% static 'js/Project.js' %}"></script>
-
-    <script>
-        $(function () {
-            var project = new Project({
-                ajaxUrl: '{% url 'api_projects_list' category=category.slug %}'
-            });
-
-            project.renderProjectPanel();
-        });
-    </script>
+    <script src="{% static 'js/models/Project.js' %}"></script>
+    <script src="{% static 'js/controllers/ProjectsController.js' %}"></script>
 {% endblock %}

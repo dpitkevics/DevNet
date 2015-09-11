@@ -1,5 +1,11 @@
-//app = angular.module('devnet', ['devnet.model.project']);
+app.controller('ProjectController', ['$scope', 'ProjectSlug', function ($scope, ProjectSlug) {
+    $scope.init = function (projectSlug) {
+        $scope.project = ProjectSlug.get({
+            slug: projectSlug
+        });
 
-app.controller('ProjectController', ['$scope', 'Project', function ($scope, Project) {
-    $scope.projects = Project.query();
+        $('.popup-item')
+            .popup()
+        ;
+    };
 }]);
