@@ -90,8 +90,7 @@
 
                 <div class="row">
                     <div class="column">
-                        <a class="ui brown label popup-item" data-content="Category"
-                           href="{% url 'projects_list_category' category=project.category.slug %}">
+                        <a class="ui brown label popup-item" data-content="Category" href="{{ project.category_url }}">
                             <i class="tags icon"></i>
                             {{ project.category }}
                         </a>

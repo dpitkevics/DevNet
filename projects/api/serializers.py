@@ -11,6 +11,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField()
     author_avatar = serializers.SerializerMethodField()
     category = serializers.StringRelatedField()
+    category_url = serializers.SerializerMethodField()
     required_skill_set = serializers.StringRelatedField(many=True)
     preview_image = serializers.SerializerMethodField()
     rating = serializers.SerializerMethodField()
@@ -37,3 +38,6 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_url(self, obj):
         return reverse('projects_view_project', kwargs={'slug': obj.slug})
+
+    def get_category_url(self, obj):
+        return reverse('projects_list_category', kwargs={'category': obj.category.slug})

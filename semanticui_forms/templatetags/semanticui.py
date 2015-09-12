@@ -43,6 +43,8 @@ def semanticui(form):
             elif 'URLField' in field_class_name:
                 normal_row = '<div class="field %(field_error_class)s">%(label)s<div class="ui labeled input"><div class="ui label">http(s)://</div>%(field)s</div></div>'
 
+            field.widget.attrs['ng-model'] = "%s.%s" % (form.instance.__class__.__name__, name)
+
             if bf_errors:
                 field_error_class = 'error'
                 error_field = '<div class="ui warning message">%s</div>' % str(bf_errors).replace("errorlist", "list")
