@@ -12,3 +12,4 @@ django-model-utils
 django-ipware
 django-gulp
 django-bower
+django-widget-tweaks

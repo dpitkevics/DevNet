@@ -1,0 +1,12 @@
+{% load widget_tweaks %}
+
+{% for field in form %}
+    {% with "Model."|add:field.name as model_name %}
+        <div class="field">
+            {{ field.errors }}
+            {{ field.label_tag }}
+
+            {% render_field field ng-change="change()" ng-model=model_name %}
+        </div>
+    {% endwith %}
+{% endfor %}

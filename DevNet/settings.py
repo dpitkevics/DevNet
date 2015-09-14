@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'django_gulp',
     'django.contrib.sites',
     'djangobower',
+    'widget_tweaks',
     'welcome',
     'profiles',
     'user_notifications',

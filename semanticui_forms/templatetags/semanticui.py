@@ -16,7 +16,7 @@ def semanticui(form):
         errors_on_separate_row = False
         error_row = '<div class="ui message"><div class="header">There are errors in form</div>%s</div>'
         help_text_html = '<span class="helptext">%s</span>'
-        normal_row = '<div class="field %(field_error_class)s">%(error_field)s%(label)s%(field)s%(help_text)s</div>'
+        normal_row = '<div class="field %(ng_class)s">%(error_field)s%(label)s%(field)s%(help_text)s</div>'
         row_ender = '</td></tr>'
         html_class_attr = ''
         error_field = ''
@@ -44,10 +44,7 @@ def semanticui(form):
                 normal_row = '<div class="field %(field_error_class)s">%(label)s<div class="ui labeled input"><div class="ui label">http(s)://</div>%(field)s</div></div>'
 
             field.widget.attrs['ng-model'] = "%s.%s" % (form.instance.__class__.__name__, name)
-
-            if bf_errors:
-                field_error_class = 'error'
-                error_field = '<div class="ui warning message">%s</div>' % str(bf_errors).replace("errorlist", "list")
+            field.widget.attrs['ng-change'] = "change()"
 
             css_classes = bf.css_classes()
             # Create a 'class="..."' attribute if the row should have any
@@ -77,7 +74,7 @@ def semanticui(form):
                 'help_text': help_text,
                 'html_class_attr': html_class_attr,
                 'field_name': bf.html_name,
-                'field_error_class': field_error_class,
+                'ng_class': "{{ %s.%sClass }}" % (form.instance.__class__.__name__, name),
             })
 
         if top_errors:

@@ -10,7 +10,7 @@ from ..models import Project
 class ProjectSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField()
     author_avatar = serializers.SerializerMethodField()
-    category = serializers.StringRelatedField()
+    category = serializers.StringRelatedField(required=False)
     category_url = serializers.SerializerMethodField()
     required_skill_set = serializers.StringRelatedField(many=True)
     preview_image = serializers.SerializerMethodField()

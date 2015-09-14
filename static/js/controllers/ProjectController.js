@@ -10,22 +10,41 @@ app.controller('ProjectController', ['$scope', 'ProjectSlug', function ($scope, 
     };
 }]);
 
-app.controller('ProjectEditController', ['$scope', 'Project', function ($scope, Project) {
+app.controller('ProjectEditController', ['$scope', '$location', '$rootScope', 'Project', function ($scope, $location, $rootScope, Project) {
+    $rootScope.$on('$stateChangeStart', function () {
+        $('select')
+            .dropdown()
+        ;
+    });
+
     $scope.formClass = '';
-    $scope.Project = new Project();
+    $scope.Model = new Project();
     $scope.save = function () {
-        $scope.Project.$save()
+        $scope.Model.$save()
             .then(function (result) {
-                console.log(result);
+                return $location.path(result.data.url);
             })
             .then(function () {
-                $scope.Project = new Project();
+                $scope.Model = new Project();
             })
             .then(function () {
                 return $scope.errors = null;
             }, function (rejection) {
                 $scope.formClass = 'error';
+
+                angular.forEach(rejection.data, function (value, name) {
+                    var element = angular.element(document.querySelector('#id_' + name)).parent();
+
+                    if (element.length) {
+                        element.addClass('error');
+                    }
+                });
+
                 return $scope.errors = rejection.data;
             });
     };
+
+    $scope.change = function () {
+        console.log($scope.Model);
+    }
 }]);

@@ -8,17 +8,21 @@
 
 {% block content %}
     {% verbatim %}
-    <form class="ui form {{ formClass }}">
+    <form class="ui form {{ formClass }}" enctype="multipart/form-data">
     {% endverbatim %}
         {% csrf_token %}
 
         <h4 class="ui dividing header">Create new Project</h4>
 
         {% verbatim %}
-        <p ng-repeat="(name, errs) in errors" class="alert alert-danger"><strong>{{ name }}</strong>: {{ errs.join(', ') }}</p>
+        <div class="ui error message ng-hide" ng-show="errors">
+            <div class="header">There are errors in form:</div>
+
+            <p ng-repeat="(name, errs) in errors" class="alert alert-danger"><strong>{{ name|normalize }}</strong>: {{ errs.join(', ') }}</p>
+        </div>
         {% endverbatim %}
 
-        {{ form|semanticui }}
+        {% include 'snippets/form.html' with form=form %}
 
         <button class="ui green basic button" ng-click="save()">{% trans "Create" %}</button>
     </form>
